@@ -24,12 +24,16 @@ class ViewController: UIViewController, ImagePickerDelegate, UIGestureRecognizer
         b.clipsToBounds = true
         return b
     }()
+    var flipCameraButton : UIButton = {
+        let b = UIButton()
+        b.setBackgroundImage(UIImage(named: "flipCamera"), for: .normal)
+        return b
+    }()
     
     var cameraEngine = CameraEngine()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .orange
         self.setupViews()
         self.setupCamera()
         self.setupGestures()
@@ -78,6 +82,17 @@ class ViewController: UIViewController, ImagePickerDelegate, UIGestureRecognizer
             self.captureButton.widthAnchor.constraint(equalToConstant: 54),
             self.captureButton.heightAnchor.constraint(equalToConstant: 54)
             ])
+        
+        self.flipCameraButton.addTarget(self, action: #selector(flipCameraButtonTapped), for: .touchUpInside)
+        self.flipCameraButton.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(self.flipCameraButton)
+        NSLayoutConstraint.activate([
+            self.flipCameraButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -10),
+            self.flipCameraButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 10),
+            self.flipCameraButton.widthAnchor.constraint(equalToConstant: 54),
+            self.flipCameraButton.heightAnchor.constraint(equalToConstant: 54)
+            ])
+        
     }
     
     fileprivate func setupCamera() {
@@ -100,8 +115,31 @@ class ViewController: UIViewController, ImagePickerDelegate, UIGestureRecognizer
     }
     
     func captureButtonTapped() {
-        print("Camera button pressed")
         self.cameraEngine.captureAndMerge(maskedImage: try! self.masksPicker.renderMaskedImage())
+        self.startCaptureAnimation()
+    }
+    
+    func flipCameraButtonTapped() {
+        self.cameraEngine.flipCamera()
+        self.setupCamera()
+    }
+    
+    func startCaptureAnimation() {
+        let whiteView = UIView()
+        whiteView.backgroundColor = .white
+        whiteView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(whiteView)
+        NSLayoutConstraint.activate([
+            whiteView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            whiteView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            whiteView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            whiteView.topAnchor.constraint(equalTo: self.view.topAnchor)
+            ])
+        UIView.animate(withDuration: 0.3, animations: { 
+            whiteView.alpha = 0
+        }) { _ in
+            whiteView.removeFromSuperview()
+        }
     }
     
     //MARK: Gesture Handlers
@@ -135,59 +173,15 @@ class ViewController: UIViewController, ImagePickerDelegate, UIGestureRecognizer
         guard let cell = self.imagePicker.cellForItem(at: indexPath) else {
             return nil
         }
-        let photoVC = PhotoViewController(photo: self.imagePicker.photos[indexPath.item])
+        let photoVC = PreviewViewController(photo: self.imagePicker.photos[indexPath.item])
         photoVC.rootViewController = self
         previewingContext.sourceRect = cell.frame
         return photoVC
     }
     
-    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
-//        showDetailViewController(viewControllerToCommit, sender: self)
-    }
-}
-
-class PhotoViewController : UIViewController {
-    var photo : Photo?
-    var imageView = UIImageView()
-    weak var rootViewController : UIViewController?
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) { }
     
-    override var previewActionItems: [UIPreviewActionItem] {
-        return [
-            UIPreviewAction(title: "Share", style: .default, handler: { (action, viewController) in
-                self.photo?.getImage(completionBlock: { (image) in
-                    guard let image = image else {
-                        return
-                    }
-                    let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
-                    activityViewController.popoverPresentationController?.sourceView = self.view
-                    self.rootViewController?.present(activityViewController, animated: true, completion: nil)
-                })
-            })]
-    }
-    
-    init(photo: Photo?) {
-        self.photo = photo
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.imageView.contentMode = .scaleAspectFill
-        self.imageView.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(self.imageView)
-        NSLayoutConstraint.activate([
-            self.imageView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            self.imageView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            self.imageView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-            self.imageView.topAnchor.constraint(equalTo: self.view.topAnchor)
-            ])
-        
-        self.photo?.getImage(completionBlock: { (image) in
-            self.imageView.image = image
-        })
+    override var prefersStatusBarHidden: Bool {
+        return true
     }
 }

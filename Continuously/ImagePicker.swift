@@ -128,7 +128,7 @@ class ImagePickerPhotoCell : UICollectionViewCell {
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
         iv.layer.cornerRadius = 4
-        iv.layer.borderColor = UIColor(red: 0.1, green: 0.8, blue: 0.8, alpha: 0.4).cgColor
+        iv.layer.borderColor = UIColor(white: 0, alpha: 0.4).cgColor
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
     }()

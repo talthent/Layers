@@ -11,25 +11,47 @@ import AVFoundation
 
 struct CameraEngine {
     
-    fileprivate let captureSession = AVCaptureSession()
+    fileprivate var captureSession = AVCaptureSession()
     fileprivate let stillImageOutput = AVCaptureStillImageOutput()
     fileprivate var previewLayer : AVCaptureVideoPreviewLayer?
     fileprivate var captureDevice : AVCaptureDevice?
     
     init() {
         captureSession.sessionPreset = AVCaptureSessionPresetHigh
-        
+        self.captureDevice = self.findCamera(type: .back)
+    }
+    
+    private func findCamera(type: AVCaptureDevicePosition) -> AVCaptureDevice? {
         if let devices = AVCaptureDevice.devices() as? [AVCaptureDevice] {
-            let cameras = devices.filter{ return $0.hasMediaType(AVMediaTypeVideo) && $0.position == .back}
-            self.captureDevice = cameras.first
-            if captureDevice != nil {
+            let cameras = devices.filter{ return $0.hasMediaType(AVMediaTypeVideo) && $0.position == type}
+            if cameras.first != nil {
                 print("Capture device found")
+            } else {
+                fatalError()
             }
+            return cameras.first
         }
+        return nil
+    }
+    
+    mutating func flipCamera() {
+        if self.captureDevice?.position == .back {
+            self.captureDevice = self.findCamera(type: .front)
+        } else {
+            self.captureDevice = self.findCamera(type: .back)
+        }
+        self.stop()
     }
     
     func getPreviewLayer() -> AVCaptureVideoPreviewLayer? {
         return self.previewLayer
+    }
+    
+    mutating func stop() {
+        self.captureSession.stopRunning()
+        self.captureSession = AVCaptureSession()
+        self.previewLayer?.removeFromSuperlayer()
+        self.previewLayer = nil
     }
     
     mutating func start() {
@@ -54,6 +76,7 @@ struct CameraEngine {
         captureSession.startRunning()
     }
     
+    //MARK: ACTIONS
     func captureAndMerge(maskedImage: UIImage) {
         self.capture(success: { (image) in
             
