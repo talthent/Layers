@@ -8,77 +8,17 @@
 
 import Photos
 
-protocol PhotosProxyDelegate {
-    func didFinishLoadingPhotos()
-}
-
-class Photo {
-    var asset : PHAsset
-    var image : UIImage?
-    var thumbnail : UIImage?
-    
-    init(asset: PHAsset) {
-        self.asset = asset
-    }
-    
-    func getImage(success: ((UIImage)->())?, failure: (()->())?) {
-        if let image = self.image {
-            success?(image)
-            return
-        }
-        let options = PHImageRequestOptions()
-        options.deliveryMode = .highQualityFormat
-        options.resizeMode = .none
-        PHImageManager.default().requestImageData(for: self.asset, options: options) { (imageData, dataUTI, orientation, info) in
-            guard let imageData = imageData else {
-                failure?()
-                return
-            }
-            guard let image = UIImage(data: imageData) else {
-                failure?()
-                return
-            }
-            self.image = image
-            success?(image)
-        }
-    }
-    
-    func getThumbnail(success: ((UIImage)->())?, failure: (()->())?) {
-        if let thumbnail = self.thumbnail {
-            success?(thumbnail)
-            return
-        }
-        let options = PHImageRequestOptions()
-        options.resizeMode = .fast
-        options.deliveryMode = .fastFormat
-        PHImageManager.default().requestImage(for: self.asset, targetSize: PhotosProxy.thumbnailItemSize, contentMode: .aspectFill, options: options, resultHandler: { result, info in
-            if let result = result {
-                self.thumbnail = result
-                success?(result)
-            } else {
-                failure?()
-            }
-        })
-    }
-}
-
 class PhotosProxy {
 
     static let thumbnailItemSize = CGSize(width: 100, height: 100)
-    
-    var delegate : PhotosProxyDelegate?
+    static let shared = PhotosProxy()
     
     var photos = [Photo]()
     
-    init(delegate: PhotosProxyDelegate?) {
-        self.loadPhotos()
-        self.delegate = delegate
-    }
-    
-    func loadPhotos() {
+    func loadPhotos(completionBlock: ((_ photos: [Photo])->())?) {
         self.fetchPhotos(targetSize: PhotosProxy.thumbnailItemSize, completionBlock: { photos in
             self.photos = photos
-            self.delegate?.didFinishLoadingPhotos()
+            completionBlock?(photos)
         })
     }
     
@@ -99,15 +39,11 @@ class PhotosProxy {
         
         for i in 0..<photos.count {
             group.enter()
-            let options = PHImageRequestOptions()
-            options.resizeMode = .fast
-            options.deliveryMode = .fastFormat
-            PHImageManager.default().requestImage(for: photos[i].asset, targetSize: size, contentMode: .aspectFill, options: options, resultHandler: { result, info in
-                if let result = result {
-                    photos[i].thumbnail = result
-                }
+            photos[i].getThumbnail(completionBlock: { (thumbnail) in
+                photos[i].thumbnail = thumbnail
                 group.leave()
             })
+            
         }
         group.notify(queue: DispatchQueue.main, work: DispatchWorkItem(block: { 
             completionBlock?(photos)

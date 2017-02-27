@@ -56,7 +56,16 @@ struct CameraEngine {
     
     func captureAndMerge(maskedImage: UIImage) {
         self.capture(success: { (image) in
-            //TODO: merge two images
+            
+            UIGraphicsBeginImageContext(image.size)
+            image.draw(in: CGRect(origin: .zero, size: image.size))
+            maskedImage.draw(in: CGRect(origin: .zero, size: image.size))
+            let mergedImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            if mergedImage != nil {
+                UIImageWriteToSavedPhotosAlbum(mergedImage!, nil, nil, nil)
+            }
+            
         }, failure: nil)
     }
     

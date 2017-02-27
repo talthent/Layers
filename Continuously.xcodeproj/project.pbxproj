@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B90870821E648E13006F8263 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90870811E648E13006F8263 /* Photo.swift */; };
 		B94C54191E5EEA4D00EC2527 /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94C54181E5EEA4D00EC2527 /* UIImageViewExtension.swift */; };
 		B9585D951E64539800EE9C14 /* MasksPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9585D941E64539800EE9C14 /* MasksPicker.swift */; };
 		B9A1CCE81E6317CE00A9DD3F /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A1CCE71E6317CE00A9DD3F /* ImagePicker.swift */; };
@@ -40,6 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B90870811E648E13006F8263 /* Photo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		B94C54181E5EEA4D00EC2527 /* UIImageViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
 		B9585D941E64539800EE9C14 /* MasksPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MasksPicker.swift; sourceTree = "<group>"; };
 		B9A1CCE71E6317CE00A9DD3F /* ImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 				B9F82DE41E63203900FFAC61 /* Views */,
 				B9C303731E5CE379004C0FE1 /* CameraEngine.swift */,
 				B9C303751E5CEC88004C0FE1 /* PhotosProxy.swift */,
+				B90870811E648E13006F8263 /* Photo.swift */,
 				C779EB481DA625B800BFF796 /* Main.storyboard */,
 				C779EB4B1DA625B800BFF796 /* Assets.xcassets */,
 				C779EB4D1DA625B800BFF796 /* LaunchScreen.storyboard */,
@@ -301,6 +304,7 @@
 				C779EB471DA625B800BFF796 /* ViewController.swift in Sources */,
 				B9585D951E64539800EE9C14 /* MasksPicker.swift in Sources */,
 				B9B0BEA41E644EC5007B5D6E /* UIColorExtension.swift in Sources */,
+				B90870821E648E13006F8263 /* Photo.swift in Sources */,
 				C779EB451DA625B800BFF796 /* AppDelegate.swift in Sources */,
 				B9C303741E5CE379004C0FE1 /* CameraEngine.swift in Sources */,
 				B9A1CCE81E6317CE00A9DD3F /* ImagePicker.swift in Sources */,

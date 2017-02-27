@@ -135,8 +135,8 @@ class ViewController: UIViewController, ImagePickerDelegate, UIGestureRecognizer
         guard let cell = self.imagePicker.cellForItem(at: indexPath) else {
             return nil
         }
-        let photoVC = PhotoViewController(photo: self.imagePicker.photos?[indexPath.item])
-        photoVC.preferredContentSize = CGSize(width: 0, height: 300)
+        let photoVC = PhotoViewController(photo: self.imagePicker.photos[indexPath.item])
+        photoVC.rootViewController = self
         previewingContext.sourceRect = cell.frame
         return photoVC
     }
@@ -149,15 +149,20 @@ class ViewController: UIViewController, ImagePickerDelegate, UIGestureRecognizer
 class PhotoViewController : UIViewController {
     var photo : Photo?
     var imageView = UIImageView()
+    weak var rootViewController : UIViewController?
     
     override var previewActionItems: [UIPreviewActionItem] {
         return [
-            UIPreviewAction(title: "Share", style: .selected, handler: { (action, viewController) in
-                
-            }),
-            UIPreviewAction(title: "Delete", style: .destructive) { (action, viewController) -> Void in
-                print("You deleted the photo")
-            }]
+            UIPreviewAction(title: "Share", style: .default, handler: { (action, viewController) in
+                self.photo?.getImage(completionBlock: { (image) in
+                    guard let image = image else {
+                        return
+                    }
+                    let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+                    activityViewController.popoverPresentationController?.sourceView = self.view
+                    self.rootViewController?.present(activityViewController, animated: true, completion: nil)
+                })
+            })]
     }
     
     init(photo: Photo?) {
@@ -181,10 +186,8 @@ class PhotoViewController : UIViewController {
             self.imageView.topAnchor.constraint(equalTo: self.view.topAnchor)
             ])
         
-        self.photo?.getImage(success: { (image) in
+        self.photo?.getImage(completionBlock: { (image) in
             self.imageView.image = image
-        }, failure: { 
-            self.dismiss(animated: false, completion: nil)
         })
     }
 }

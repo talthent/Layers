@@ -13,18 +13,17 @@ protocol ImagePickerDelegate : class {
     func didDeselectImage(imagePicker: ImagePicker)
 }
 
-class ImagePicker : UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource, PhotosProxyDelegate {
+class ImagePicker : UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource {
     
     var selectedItem : Int?
     
-    fileprivate var photosProxy : PhotosProxy!
     let layout = UICollectionViewFlowLayout()
     let itemSize = CGSize(width: 100, height: 100)
     weak var imagePickerDelegate : ImagePickerDelegate?
     
-    var photos : [Photo]? {
+    var photos : [Photo] {
         get {
-            return self.photosProxy?.photos
+            return PhotosProxy.shared.photos
         }
     }
     
@@ -48,17 +47,15 @@ class ImagePicker : UICollectionView, UICollectionViewDelegate, UICollectionView
         self.layout.minimumInteritemSpacing = 5
         self.delegate = self
         self.dataSource = self
-        self.photosProxy = PhotosProxy(delegate: self)
-    }
-    
-    //MARK: - PhotosProxyDelegate
-    func didFinishLoadingPhotos() {
-        self.reloadSections([0])
+        
+        PhotosProxy.shared.loadPhotos { _ in
+            self.reloadSections([0])
+        }
     }
     
     //MARK: - UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.photos?.count ?? 0
+        return self.photos.count
     }
     
     override var numberOfSections: Int {
@@ -70,7 +67,7 @@ class ImagePicker : UICollectionView, UICollectionViewDelegate, UICollectionView
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for: indexPath) as! ImagePickerPhotoCell
         cell.checked = self.selectedItem == indexPath.item
-        cell.image = self.photos?[indexPath.item].thumbnail
+        cell.image = self.photos[indexPath.item].thumbnail
         return cell
     }
 
@@ -91,10 +88,12 @@ class ImagePicker : UICollectionView, UICollectionViewDelegate, UICollectionView
             cell.checked = true
             self.selectedItem = indexPath.item
             self.isUserInteractionEnabled = false
-            self.photos?[indexPath.item].getImage(success: { (image) in
+            self.photos[indexPath.item].getImage(completionBlock: { (image) in
                 self.isUserInteractionEnabled = true
-                self.imagePickerDelegate?.didSelectImage(imagePicker: self, image: image)
-            }, failure: nil)
+                if let image = image {
+                    self.imagePickerDelegate?.didSelectImage(imagePicker: self, image: image)
+                }
+            })
         }
         
     }
