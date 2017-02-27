@@ -9,10 +9,12 @@
 import UIKit
 import Foundation
 
-class ViewController: UIViewController, ImagePickerDelegate {
+class ViewController: UIViewController, ImagePickerDelegate, UIGestureRecognizerDelegate, UIViewControllerPreviewingDelegate {
+    
+    var tapGesture : UITapGestureRecognizer?
     
     var videoBox = UIView()
-    var maskImage = UIImageView()
+    var masksPicker = MasksPicker()
     var imagePicker : ImagePicker!
     var captureButton : UIButton = {
         let b = UIButton()
@@ -25,6 +27,18 @@ class ViewController: UIViewController, ImagePickerDelegate {
     
     var cameraEngine = CameraEngine()
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.view.backgroundColor = .orange
+        self.setupViews()
+        self.setupCamera()
+        self.setupGestures()
+        
+        if traitCollection.forceTouchCapability == .available {
+            registerForPreviewing(with: self, sourceView: self.view)
+        }
+    }
+    
     fileprivate func setupViews() {
         self.videoBox.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(self.videoBox)
@@ -35,14 +49,14 @@ class ViewController: UIViewController, ImagePickerDelegate {
             self.videoBox.topAnchor.constraint(equalTo: self.view.topAnchor)
             ])
         
-        self.maskImage.contentMode = .scaleAspectFill
-        self.maskImage.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(self.maskImage)
+        
+        self.masksPicker.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(self.masksPicker)
         NSLayoutConstraint.activate([
-            self.maskImage.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            self.maskImage.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            self.maskImage.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-            self.maskImage.topAnchor.constraint(equalTo: self.view.topAnchor)
+            self.masksPicker.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            self.masksPicker.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            self.masksPicker.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            self.masksPicker.topAnchor.constraint(equalTo: self.view.topAnchor)
             ])
         
         self.imagePicker = ImagePicker(delegate: self)
@@ -66,38 +80,111 @@ class ViewController: UIViewController, ImagePickerDelegate {
             ])
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.setupViews()
-        
+    fileprivate func setupCamera() {
         self.cameraEngine.start()
         if let previewLayer = self.cameraEngine.getPreviewLayer() {
             self.videoBox.layer.addSublayer(previewLayer)
-            previewLayer.frame = self.videoBox.bounds
+            previewLayer.frame = UIScreen.main.bounds
         }
-        
-        let maskLayer = CALayer()
-        maskLayer.contents = UIImage(named: "m1")?.cgImage
-        maskLayer.frame = self.maskImage.bounds
-        self.maskImage.layer.mask = maskLayer
-        self.maskImage.layer.masksToBounds = true
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    fileprivate func setupGestures() {
+        self.tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapGestureHandler(tap:)))
+        self.tapGesture?.delegate = self
+        self.view.addGestureRecognizer(self.tapGesture!)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.masksPicker.createMask()
     }
     
     func captureButtonTapped() {
         print("Camera button pressed")
-        self.cameraEngine.capture()
+        self.cameraEngine.captureAndMerge(maskedImage: try! self.masksPicker.renderMaskedImage())
+    }
+    
+    //MARK: Gesture Handlers
+    func tapGestureHandler(tap : UITapGestureRecognizer) {
+        self.masksPicker.changeMask()
     }
     
     //MARK: ImagePickerDelegate
     func didSelectImage(imagePicker: ImagePicker, image: UIImage) {
-        self.maskImage.image = image
+        self.masksPicker.image = image
     }
     
     func didDeselectImage(imagePicker: ImagePicker) {
-        self.maskImage.image = nil
+        self.masksPicker.image = nil
+    }
+    
+    //MARK: UIGestureRecognizerDelegate
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        if touch.view?.isDescendant(of: self.imagePicker) == true {
+            return false
+        }
+        return true
+    }
+    
+    //MARK: UIGestureRecognizerDelegate
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        let point = self.view.convert(location, to: self.imagePicker)
+        guard let indexPath = self.imagePicker.indexPathForItem(at: point) else {
+            return nil
+        }
+        guard let cell = self.imagePicker.cellForItem(at: indexPath) else {
+            return nil
+        }
+        let photoVC = PhotoViewController(photo: self.imagePicker.photos?[indexPath.item])
+        photoVC.preferredContentSize = CGSize(width: 0, height: 300)
+        previewingContext.sourceRect = cell.frame
+        return photoVC
+    }
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+//        showDetailViewController(viewControllerToCommit, sender: self)
+    }
+}
+
+class PhotoViewController : UIViewController {
+    var photo : Photo?
+    var imageView = UIImageView()
+    
+    override var previewActionItems: [UIPreviewActionItem] {
+        return [
+            UIPreviewAction(title: "Share", style: .selected, handler: { (action, viewController) in
+                
+            }),
+            UIPreviewAction(title: "Delete", style: .destructive) { (action, viewController) -> Void in
+                print("You deleted the photo")
+            }]
+    }
+    
+    init(photo: Photo?) {
+        self.photo = photo
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.imageView.contentMode = .scaleAspectFill
+        self.imageView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(self.imageView)
+        NSLayoutConstraint.activate([
+            self.imageView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            self.imageView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            self.imageView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            self.imageView.topAnchor.constraint(equalTo: self.view.topAnchor)
+            ])
+        
+        self.photo?.getImage(success: { (image) in
+            self.imageView.image = image
+        }, failure: { 
+            self.dismiss(animated: false, completion: nil)
+        })
     }
 }

@@ -22,14 +22,10 @@ class ImagePicker : UICollectionView, UICollectionViewDelegate, UICollectionView
     let itemSize = CGSize(width: 100, height: 100)
     weak var imagePickerDelegate : ImagePickerDelegate?
     
-    var photos : [UIImage]? {
+    var photos : [Photo]? {
         get {
             return self.photosProxy?.photos
         }
-    }
-    
-    func getSample(success: ((UIImage) -> ())?, failure: (() -> ())?) {
-        self.photosProxy.fetchHiResPhoto(index: 0, success: success, failure: failure)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -74,7 +70,7 @@ class ImagePicker : UICollectionView, UICollectionViewDelegate, UICollectionView
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for: indexPath) as! ImagePickerPhotoCell
         cell.checked = self.selectedItem == indexPath.item
-        cell.image = self.photos![indexPath.item]
+        cell.image = self.photos?[indexPath.item].thumbnail
         return cell
     }
 
@@ -92,10 +88,11 @@ class ImagePicker : UICollectionView, UICollectionViewDelegate, UICollectionView
             if let previousSelectedItem = self.selectedItem {
                 self.getCellAtIndex(previousSelectedItem)?.checked = false
             }
-            
-            self.photosProxy.fetchHiResPhoto(index: indexPath.item, success: { (image) in
-                self.selectedItem = indexPath.item
-                cell.checked = true
+            cell.checked = true
+            self.selectedItem = indexPath.item
+            self.isUserInteractionEnabled = false
+            self.photos?[indexPath.item].getImage(success: { (image) in
+                self.isUserInteractionEnabled = true
                 self.imagePickerDelegate?.didSelectImage(imagePicker: self, image: image)
             }, failure: nil)
         }

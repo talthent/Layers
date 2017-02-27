@@ -54,16 +54,32 @@ struct CameraEngine {
         captureSession.startRunning()
     }
     
-    func capture() {
+    func captureAndMerge(maskedImage: UIImage) {
+        self.capture(success: { (image) in
+            //TODO: merge two images
+        }, failure: nil)
+    }
+    
+    func captureAndSave() {
+        self.capture(success: { (image) in
+            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+        }, failure: nil)
+    }
+    
+    fileprivate func capture(success: ((UIImage)->())?, failure: (()->())?) {
         if let videoConnection = stillImageOutput.connection(withMediaType: AVMediaTypeVideo) {
             stillImageOutput.captureStillImageAsynchronously(from: videoConnection, completionHandler: { (CMSampleBuffer, Error) in
                 if let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(CMSampleBuffer) {
                     if let cameraImage = UIImage(data: imageData) {
-                        UIImageWriteToSavedPhotosAlbum(cameraImage, nil, nil, nil)
+                        success?(cameraImage)
+                    } else {
+                        failure?()
                     }
                 }
             })
         }
     }
+    
+    
     
 }

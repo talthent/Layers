@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B94C54191E5EEA4D00EC2527 /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94C54181E5EEA4D00EC2527 /* UIImageViewExtension.swift */; };
+		B9585D951E64539800EE9C14 /* MasksPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9585D941E64539800EE9C14 /* MasksPicker.swift */; };
 		B9A1CCE81E6317CE00A9DD3F /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A1CCE71E6317CE00A9DD3F /* ImagePicker.swift */; };
 		B9B0BEA41E644EC5007B5D6E /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B0BEA31E644EC5007B5D6E /* UIColorExtension.swift */; };
 		B9C303741E5CE379004C0FE1 /* CameraEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C303731E5CE379004C0FE1 /* CameraEngine.swift */; };
@@ -40,6 +41,7 @@
 
 /* Begin PBXFileReference section */
 		B94C54181E5EEA4D00EC2527 /* UIImageViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
+		B9585D941E64539800EE9C14 /* MasksPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MasksPicker.swift; sourceTree = "<group>"; };
 		B9A1CCE71E6317CE00A9DD3F /* ImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		B9B0BEA31E644EC5007B5D6E /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		B9C303731E5CE379004C0FE1 /* CameraEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraEngine.swift; path = /Users/talcohen/Developer/iOS/Continously/Continuously/CameraEngine.swift; sourceTree = "<absolute>"; };
@@ -97,6 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				B9A1CCE71E6317CE00A9DD3F /* ImagePicker.swift */,
+				B9585D941E64539800EE9C14 /* MasksPicker.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -296,6 +299,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C779EB471DA625B800BFF796 /* ViewController.swift in Sources */,
+				B9585D951E64539800EE9C14 /* MasksPicker.swift in Sources */,
 				B9B0BEA41E644EC5007B5D6E /* UIColorExtension.swift in Sources */,
 				C779EB451DA625B800BFF796 /* AppDelegate.swift in Sources */,
 				B9C303741E5CE379004C0FE1 /* CameraEngine.swift in Sources */,
