@@ -1,0 +1,69 @@
+//
+//  CameraEngine.swift
+//  Continuously
+//
+//  Created by Tal Cohen on 21/02/2017.
+//  Copyright © 2017 Tal Cohen. All rights reserved.
+//
+
+import UIKit
+import AVFoundation
+
+struct CameraEngine {
+    
+    fileprivate let captureSession = AVCaptureSession()
+    fileprivate let stillImageOutput = AVCaptureStillImageOutput()
+    fileprivate var previewLayer : AVCaptureVideoPreviewLayer?
+    fileprivate var captureDevice : AVCaptureDevice?
+    
+    init() {
+        captureSession.sessionPreset = AVCaptureSessionPresetHigh
+        
+        if let devices = AVCaptureDevice.devices() as? [AVCaptureDevice] {
+            let cameras = devices.filter{ return $0.hasMediaType(AVMediaTypeVideo) && $0.position == .back}
+            self.captureDevice = cameras.first
+            if captureDevice != nil {
+                print("Capture device found")
+            }
+        }
+    }
+    
+    func getPreviewLayer() -> AVCaptureVideoPreviewLayer? {
+        return self.previewLayer
+    }
+    
+    mutating func start() {
+        
+        do {
+            try captureSession.addInput(AVCaptureDeviceInput(device: captureDevice))
+            stillImageOutput.outputSettings = [AVVideoCodecKey:AVVideoCodecJPEG]
+            
+            if captureSession.canAddOutput(stillImageOutput) {
+                captureSession.addOutput(stillImageOutput)
+            }
+        }
+        catch {
+            print("error: \(error.localizedDescription)")
+        }
+        
+        guard let previewLayer = AVCaptureVideoPreviewLayer(session: captureSession) else {
+            print("no preview layer")
+            return
+        }
+        self.previewLayer = previewLayer
+        captureSession.startRunning()
+    }
+    
+    func capture() {
+        if let videoConnection = stillImageOutput.connection(withMediaType: AVMediaTypeVideo) {
+            stillImageOutput.captureStillImageAsynchronously(from: videoConnection, completionHandler: { (CMSampleBuffer, Error) in
+                if let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(CMSampleBuffer) {
+                    if let cameraImage = UIImage(data: imageData) {
+                        UIImageWriteToSavedPhotosAlbum(cameraImage, nil, nil, nil)
+                    }
+                }
+            })
+        }
+    }
+    
+}
