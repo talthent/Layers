@@ -1,6 +1,6 @@
 //
 //  ImagePicker.swift
-//  Continuously
+//  Layers
 //
 //  Created by Tal Cohen on 26/02/2017.
 //  Copyright © 2017 Tal Cohen. All rights reserved.

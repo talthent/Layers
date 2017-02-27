@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  Continuously
+//  Layers
 //
 //  Created by Tal Cohen on 23/02/17.
 //  Copyright © 2017 Tal Cohen. All rights reserved.
