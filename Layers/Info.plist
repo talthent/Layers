@@ -38,6 +38,8 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>We will help you take an amazing pictures, believe us!</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Use can use your microphone to report bugs.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We just want to save the photo to your camera roll. that's it! promise!</string>
 	<key>UILaunchStoryboardName</key>
