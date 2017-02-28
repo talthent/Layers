@@ -15,6 +15,9 @@ protocol ImagePickerDelegate : class {
 
 class ImagePicker : UIView, UICollectionViewDelegate, UICollectionViewDataSource {
     
+    static let maxHeight : CGFloat = 110
+    static let minHeight : CGFloat = 10
+    
     var selectedItem : Int?
     
     weak var delegate : ImagePickerDelegate?
@@ -24,7 +27,7 @@ class ImagePicker : UIView, UICollectionViewDelegate, UICollectionViewDataSource
         l.itemSize = CGSize(width: 100, height: 100)
         l.scrollDirection = .horizontal
         l.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-        l.minimumInteritemSpacing = 5
+        l.minimumLineSpacing = 5
         return l
     }()
     
@@ -42,6 +45,8 @@ class ImagePicker : UIView, UICollectionViewDelegate, UICollectionViewDataSource
         self.setupCollectionView()
         
         NotificationCenter.default.addObserver(self, selector: #selector(refreshData), name: PhotosProxy.loadingPhotosCompleteEvent, object: nil)
+        
+        
         PhotosProxy.shared.loadPhotos()
     }
     
@@ -50,7 +55,7 @@ class ImagePicker : UIView, UICollectionViewDelegate, UICollectionViewDataSource
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
         self.collectionView.collectionViewLayout = self.layout
-        self.collectionView.backgroundColor = UIColor(white: 0, alpha: 0.8)
+        self.collectionView.backgroundColor = .clear//UIColor(white: 0, alpha: 0.8)
         self.collectionView.register(ImagePickerPhotoCell.self, forCellWithReuseIdentifier: "photoCell")
         
         self.collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -84,7 +89,6 @@ class ImagePicker : UIView, UICollectionViewDelegate, UICollectionViewDataSource
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        NSLog("didSelect \(indexPath.item)")
         guard let cell = collectionView.cellForItem(at: indexPath) as? ImagePickerPhotoCell else {
             return
         }
@@ -140,7 +144,7 @@ class ImagePickerPhotoCell : UICollectionViewCell {
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
         iv.layer.cornerRadius = 4
-        iv.layer.borderColor = UIColor(white: 0, alpha: 0.4).cgColor
+        iv.layer.borderColor = UIColor(red: 0.1, green: 0.8, blue: 0.8, alpha: 0.4).cgColor
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
     }()

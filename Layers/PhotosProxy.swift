@@ -18,10 +18,17 @@ class PhotosProxy {
     var photos = [Photo]()
     
     func loadPhotos() {
-        self.fetchPhotos(targetSize: PhotosProxy.thumbnailItemSize, completionBlock: { photos in
-            self.photos = photos
-            NotificationCenter.default.post(name: PhotosProxy.loadingPhotosCompleteEvent, object: nil)
-        })
+        PHPhotoLibrary.requestAuthorization { (auth) in
+            switch auth {
+            case .authorized:
+                self.fetchPhotos(targetSize: PhotosProxy.thumbnailItemSize, completionBlock: { photos in
+                    self.photos = photos
+                    NotificationCenter.default.post(name: PhotosProxy.loadingPhotosCompleteEvent, object: nil)
+                })
+            default:
+                break;
+            }
+        }
     }
     
     fileprivate func fetchPhotos(amount : Int? = nil, targetSize size: CGSize, completionBlock: ((_ photos: [Photo])->())?){

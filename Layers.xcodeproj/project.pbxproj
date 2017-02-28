@@ -11,6 +11,7 @@
 		B90870841E649381006F8263 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90870831E649381006F8263 /* PreviewViewController.swift */; };
 		B94C54191E5EEA4D00EC2527 /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94C54181E5EEA4D00EC2527 /* UIImageViewExtension.swift */; };
 		B9585D951E64539800EE9C14 /* MasksPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9585D941E64539800EE9C14 /* MasksPicker.swift */; };
+		B9720DFC1E658386008A1423 /* CaptureButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9720DFB1E658386008A1423 /* CaptureButton.swift */; };
 		B9A1CCE81E6317CE00A9DD3F /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A1CCE71E6317CE00A9DD3F /* ImagePicker.swift */; };
 		B9B0BEA41E644EC5007B5D6E /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B0BEA31E644EC5007B5D6E /* UIColorExtension.swift */; };
 		B9C303741E5CE379004C0FE1 /* CameraEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C303731E5CE379004C0FE1 /* CameraEngine.swift */; };
@@ -45,6 +46,7 @@
 		B90870831E649381006F8263 /* PreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreviewViewController.swift; path = Layers/PreviewViewController.swift; sourceTree = SOURCE_ROOT; };
 		B94C54181E5EEA4D00EC2527 /* UIImageViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIImageViewExtension.swift; path = Layers/UIImageViewExtension.swift; sourceTree = SOURCE_ROOT; };
 		B9585D941E64539800EE9C14 /* MasksPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MasksPicker.swift; path = Layers/MasksPicker.swift; sourceTree = SOURCE_ROOT; };
+		B9720DFB1E658386008A1423 /* CaptureButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CaptureButton.swift; sourceTree = SOURCE_ROOT; };
 		B9A1CCE71E6317CE00A9DD3F /* ImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImagePicker.swift; path = Layers/ImagePicker.swift; sourceTree = SOURCE_ROOT; };
 		B9B0BEA31E644EC5007B5D6E /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIColorExtension.swift; path = Layers/UIColorExtension.swift; sourceTree = SOURCE_ROOT; };
 		B9C303731E5CE379004C0FE1 /* CameraEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraEngine.swift; path = Layers/CameraEngine.swift; sourceTree = SOURCE_ROOT; };
@@ -109,6 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				B9A1CCE71E6317CE00A9DD3F /* ImagePicker.swift */,
+				B9720DFB1E658386008A1423 /* CaptureButton.swift */,
 				B9585D941E64539800EE9C14 /* MasksPicker.swift */,
 			);
 			name = Views;
@@ -314,6 +317,7 @@
 				B90870841E649381006F8263 /* PreviewViewController.swift in Sources */,
 				B90870821E648E13006F8263 /* Photo.swift in Sources */,
 				C779EB451DA625B800BFF796 /* AppDelegate.swift in Sources */,
+				B9720DFC1E658386008A1423 /* CaptureButton.swift in Sources */,
 				B9C303741E5CE379004C0FE1 /* CameraEngine.swift in Sources */,
 				B9A1CCE81E6317CE00A9DD3F /* ImagePicker.swift in Sources */,
 				B94C54191E5EEA4D00EC2527 /* UIImageViewExtension.swift in Sources */,

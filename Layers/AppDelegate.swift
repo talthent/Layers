@@ -26,9 +26,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PhotosProxy.shared.loadPhotos()
     }
     
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        NSLog("didBecomeActive")
-    }
-    
 }
 

@@ -9,21 +9,18 @@
 import UIKit
 import Foundation
 
-class ViewController: UIViewController, ImagePickerDelegate, UIGestureRecognizerDelegate, UIViewControllerPreviewingDelegate {
+class ViewController: UIViewController {
     
     var tapGesture : UITapGestureRecognizer?
+    var panGesture : UIPanGestureRecognizer?
+    var panStartingPoint : CGPoint?
+    var imagePickerHeightStartingPoint : CGFloat?
     
     var videoBox = UIView()
     var masksPicker = MasksPicker()
     var imagePicker : ImagePicker!
-    var captureButton : UIButton = {
-        let b = UIButton()
-        b.backgroundColor = UIColor(white: 1, alpha: 0.8)
-        b.layer.borderWidth = 1
-        b.layer.cornerRadius = 27
-        b.clipsToBounds = true
-        return b
-    }()
+    var imagePickerHeightConstraint : NSLayoutConstraint?
+    var captureButton = CaptureButton()
     var flipCameraButton : UIButton = {
         let b = UIButton()
         b.setBackgroundImage(UIImage(named: "flipCamera"), for: .normal)
@@ -31,6 +28,10 @@ class ViewController: UIViewController, ImagePickerDelegate, UIGestureRecognizer
     }()
     
     var cameraEngine = CameraEngine()
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,21 +67,22 @@ class ViewController: UIViewController, ImagePickerDelegate, UIGestureRecognizer
         self.imagePicker = ImagePicker(delegate: self)
         self.imagePicker.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(self.imagePicker)
+        self.imagePickerHeightConstraint = self.imagePicker.heightAnchor.constraint(equalToConstant: 110)
         NSLayoutConstraint.activate([
             self.imagePicker.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             self.imagePicker.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             self.imagePicker.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-            self.imagePicker.heightAnchor.constraint(equalToConstant: 110)
+            self.imagePickerHeightConstraint!
             ])
         
-        self.captureButton.addTarget(self, action: #selector(captureButtonTapped), for: .touchUpInside)
+        self.captureButton.addTarget(self, action: #selector(captureButtonTapped))
         self.captureButton.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(self.captureButton)
         NSLayoutConstraint.activate([
             self.captureButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             self.captureButton.bottomAnchor.constraint(equalTo: self.imagePicker.topAnchor, constant: -10),
-            self.captureButton.widthAnchor.constraint(equalToConstant: 54),
-            self.captureButton.heightAnchor.constraint(equalToConstant: 54)
+            self.captureButton.widthAnchor.constraint(equalToConstant: 66),
+            self.captureButton.heightAnchor.constraint(equalToConstant: 66)
             ])
         
         self.flipCameraButton.addTarget(self, action: #selector(flipCameraButtonTapped), for: .touchUpInside)
@@ -92,7 +94,6 @@ class ViewController: UIViewController, ImagePickerDelegate, UIGestureRecognizer
             self.flipCameraButton.widthAnchor.constraint(equalToConstant: 54),
             self.flipCameraButton.heightAnchor.constraint(equalToConstant: 54)
             ])
-        
     }
     
     fileprivate func setupCamera() {
@@ -107,6 +108,10 @@ class ViewController: UIViewController, ImagePickerDelegate, UIGestureRecognizer
         self.tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapGestureHandler(tap:)))
         self.tapGesture?.delegate = self
         self.view.addGestureRecognizer(self.tapGesture!)
+        
+        self.panGesture = UIPanGestureRecognizer(target: self, action: #selector(panGestureHandler(pan:)))
+        self.panGesture?.delegate = self
+        self.view.addGestureRecognizer(self.panGesture!)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -147,16 +152,48 @@ class ViewController: UIViewController, ImagePickerDelegate, UIGestureRecognizer
         self.masksPicker.changeMask()
     }
     
-    //MARK: ImagePickerDelegate
-    func didSelectImage(imagePicker: ImagePicker, image: UIImage) {
-        self.masksPicker.image = image
+    func panGestureHandler(pan : UIPanGestureRecognizer) {
+        switch pan.state {
+        case .began:
+            self.panStartingPoint = pan.location(in: self.view)
+            self.imagePickerHeightStartingPoint = self.imagePickerHeightConstraint?.constant
+        case .changed:
+            let distance = self.panStartingPoint!.y - pan.location(in: self.view).y
+            var result = distance + self.imagePickerHeightStartingPoint!
+            
+            if result < ImagePicker.minHeight {
+                result = ImagePicker.minHeight
+            } else if result > ImagePicker.maxHeight {
+                result = ImagePicker.maxHeight + (result - ImagePicker.maxHeight) / 4
+            }
+            self.imagePickerHeightConstraint?.constant = result
+        case .cancelled, .ended ,.failed:
+            let imagePickerHeight = self.imagePickerHeightConstraint!.constant
+            let velocity = pan.velocity(in: self.view).y
+        
+            var height : CGFloat
+            if velocity < -800 {
+                height = ImagePicker.maxHeight
+            } else if velocity > 800 {
+                height = ImagePicker.minHeight
+            } else if imagePickerHeight < ImagePicker.maxHeight - ImagePicker.minHeight {
+                height = ImagePicker.minHeight
+            } else {
+                height = ImagePicker.maxHeight
+            }
+            self.imagePickerHeightConstraint?.constant = height
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.8, options: .allowUserInteraction, animations: { 
+                self.view.layoutIfNeeded()
+            }, completion: nil)
+        default:
+            break
+        }
+        
     }
-    
-    func didDeselectImage(imagePicker: ImagePicker) {
-        self.masksPicker.image = nil
-    }
-    
-    //MARK: UIGestureRecognizerDelegate
+}
+
+//MARK: UIGestureRecognizerDelegate
+extension ViewController : UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         if touch.view?.isDescendant(of: self.imagePicker) == true {
             return false
@@ -164,7 +201,29 @@ class ViewController: UIViewController, ImagePickerDelegate, UIGestureRecognizer
         return true
     }
     
-    //MARK: UIViewControllerPreviewingDelegate
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        //Ignore horizontal pan gesture
+        if let pan = gestureRecognizer as? UIPanGestureRecognizer {
+            let velocity = pan.velocity(in: self.view)
+            return fabs(velocity.y) > fabs(velocity.x)
+        }
+        return true
+    }
+}
+
+//MARK: ImagePickerDelegate
+extension ViewController : ImagePickerDelegate {
+    func didSelectImage(imagePicker: ImagePicker, image: UIImage) {
+        self.masksPicker.image = image
+    }
+    
+    func didDeselectImage(imagePicker: ImagePicker) {
+        self.masksPicker.image = nil
+    }
+}
+
+//MARK: UIViewControllerPreviewingDelegate
+extension ViewController : UIViewControllerPreviewingDelegate {
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
         let point = self.view.convert(location, to: self.imagePicker.collectionView)
         guard let indexPath = self.imagePicker.collectionView.indexPathForItem(at: point) else {
@@ -180,8 +239,4 @@ class ViewController: UIViewController, ImagePickerDelegate, UIGestureRecognizer
     }
     
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) { }
-    
-    override var prefersStatusBarHidden: Bool {
-        return true
-    }
 }
