@@ -112,6 +112,8 @@
 		A6EAC53AA924D836F0D04323 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B9720DFE1E65932B008A1423 /* Fabric.framework */,
+				B9720DFF1E65932B008A1423 /* Crashlytics.framework */,
 				D57611AC89FDCB6B90552745 /* Pods_Layers.framework */,
 			);
 			name = Frameworks;
@@ -152,8 +154,6 @@
 				C779EB581DA625B900BFF796 /* LayersTests */,
 				C779EB631DA625B900BFF796 /* LayersUITests */,
 				C779EB421DA625B800BFF796 /* Products */,
-				B9720DFE1E65932B008A1423 /* Fabric.framework */,
-				B9720DFF1E65932B008A1423 /* Crashlytics.framework */,
 				0A23538DB15B252A4B2180CC /* Pods */,
 				A6EAC53AA924D836F0D04323 /* Frameworks */,
 			);
