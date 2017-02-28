@@ -12,6 +12,8 @@
 		B94C54191E5EEA4D00EC2527 /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94C54181E5EEA4D00EC2527 /* UIImageViewExtension.swift */; };
 		B9585D951E64539800EE9C14 /* MasksPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9585D941E64539800EE9C14 /* MasksPicker.swift */; };
 		B9720DFC1E658386008A1423 /* CaptureButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9720DFB1E658386008A1423 /* CaptureButton.swift */; };
+		B9720E001E65932B008A1423 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9720DFE1E65932B008A1423 /* Fabric.framework */; };
+		B9720E011E65932B008A1423 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9720DFF1E65932B008A1423 /* Crashlytics.framework */; };
 		B9A1CCE81E6317CE00A9DD3F /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A1CCE71E6317CE00A9DD3F /* ImagePicker.swift */; };
 		B9B0BEA41E644EC5007B5D6E /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B0BEA31E644EC5007B5D6E /* UIColorExtension.swift */; };
 		B9C303741E5CE379004C0FE1 /* CameraEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C303731E5CE379004C0FE1 /* CameraEngine.swift */; };
@@ -47,6 +49,8 @@
 		B94C54181E5EEA4D00EC2527 /* UIImageViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIImageViewExtension.swift; path = Layers/UIImageViewExtension.swift; sourceTree = SOURCE_ROOT; };
 		B9585D941E64539800EE9C14 /* MasksPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MasksPicker.swift; path = Layers/MasksPicker.swift; sourceTree = SOURCE_ROOT; };
 		B9720DFB1E658386008A1423 /* CaptureButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CaptureButton.swift; sourceTree = SOURCE_ROOT; };
+		B9720DFE1E65932B008A1423 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		B9720DFF1E65932B008A1423 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		B9A1CCE71E6317CE00A9DD3F /* ImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImagePicker.swift; path = Layers/ImagePicker.swift; sourceTree = SOURCE_ROOT; };
 		B9B0BEA31E644EC5007B5D6E /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIColorExtension.swift; path = Layers/UIColorExtension.swift; sourceTree = SOURCE_ROOT; };
 		B9C303731E5CE379004C0FE1 /* CameraEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraEngine.swift; path = Layers/CameraEngine.swift; sourceTree = SOURCE_ROOT; };
@@ -69,6 +73,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9720E011E65932B008A1423 /* Crashlytics.framework in Frameworks */,
+				B9720E001E65932B008A1423 /* Fabric.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,6 +130,8 @@
 				C779EB581DA625B900BFF796 /* LayersTests */,
 				C779EB631DA625B900BFF796 /* LayersUITests */,
 				C779EB421DA625B800BFF796 /* Products */,
+				B9720DFE1E65932B008A1423 /* Fabric.framework */,
+				B9720DFF1E65932B008A1423 /* Crashlytics.framework */,
 			);
 			sourceTree = "<group>";
 		};
@@ -185,6 +193,7 @@
 				C779EB3D1DA625B800BFF796 /* Sources */,
 				C779EB3E1DA625B800BFF796 /* Frameworks */,
 				C779EB3F1DA625B800BFF796 /* Resources */,
+				B9720DFD1E659302008A1423 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -305,6 +314,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		B9720DFD1E659302008A1423 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run bcbed655491f23c3df27c137cd230ca6103a5d5f 911b09c4104de24c0a632788ebc49257533e7b09abf6e3b9423d30a0b2e368f1";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		C779EB3D1DA625B800BFF796 /* Sources */ = {
@@ -466,6 +491,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 9P63DYGH75;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = Layers/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -480,6 +509,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 9P63DYGH75;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = Layers/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
