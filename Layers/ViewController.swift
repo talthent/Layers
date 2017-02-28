@@ -164,13 +164,13 @@ class ViewController: UIViewController, ImagePickerDelegate, UIGestureRecognizer
         return true
     }
     
-    //MARK: UIGestureRecognizerDelegate
+    //MARK: UIViewControllerPreviewingDelegate
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
-        let point = self.view.convert(location, to: self.imagePicker)
-        guard let indexPath = self.imagePicker.indexPathForItem(at: point) else {
+        let point = self.view.convert(location, to: self.imagePicker.collectionView)
+        guard let indexPath = self.imagePicker.collectionView.indexPathForItem(at: point) else {
             return nil
         }
-        guard let cell = self.imagePicker.cellForItem(at: indexPath) else {
+        guard let cell = self.imagePicker.collectionView.cellForItem(at: indexPath) else {
             return nil
         }
         let photoVC = PreviewViewController(photo: self.imagePicker.photos[indexPath.item])

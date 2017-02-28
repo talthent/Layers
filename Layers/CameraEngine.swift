@@ -9,14 +9,15 @@
 import UIKit
 import AVFoundation
 
-struct CameraEngine {
+class CameraEngine : NSObject {
     
     fileprivate var captureSession = AVCaptureSession()
     fileprivate let stillImageOutput = AVCaptureStillImageOutput()
     fileprivate var previewLayer : AVCaptureVideoPreviewLayer?
     fileprivate var captureDevice : AVCaptureDevice?
     
-    init() {
+    override init() {
+        super.init()
         captureSession.sessionPreset = AVCaptureSessionPresetHigh
         self.captureDevice = self.findCamera(type: .back)
     }
@@ -34,7 +35,7 @@ struct CameraEngine {
         return nil
     }
     
-    mutating func flipCamera() {
+    func flipCamera() {
         if self.captureDevice?.position == .back {
             self.captureDevice = self.findCamera(type: .front)
         } else {
@@ -47,14 +48,14 @@ struct CameraEngine {
         return self.previewLayer
     }
     
-    mutating func stop() {
+    func stop() {
         self.captureSession.stopRunning()
         self.captureSession = AVCaptureSession()
         self.previewLayer?.removeFromSuperlayer()
         self.previewLayer = nil
     }
     
-    mutating func start() {
+    func start() {
         
         do {
             try captureSession.addInput(AVCaptureDeviceInput(device: captureDevice))
@@ -86,7 +87,7 @@ struct CameraEngine {
             let mergedImage = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
             if mergedImage != nil {
-                UIImageWriteToSavedPhotosAlbum(mergedImage!, nil, nil, nil)
+                self.saveImageToDisk(image: mergedImage)
             }
             
         }, failure: nil)
@@ -94,7 +95,7 @@ struct CameraEngine {
     
     func captureAndSave() {
         self.capture(success: { (image) in
-            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+            self.saveImageToDisk(image: image)
         }, failure: nil)
     }
     
@@ -112,6 +113,14 @@ struct CameraEngine {
         }
     }
     
+    fileprivate func saveImageToDisk(image: UIImage?) {
+        UIImageWriteToSavedPhotosAlbum(image!, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+    }
     
+    func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+        if error == nil {
+            PhotosProxy.shared.loadPhotos()
+        }
+    }
     
 }

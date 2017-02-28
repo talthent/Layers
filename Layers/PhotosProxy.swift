@@ -12,13 +12,15 @@ class PhotosProxy {
 
     static let thumbnailItemSize = CGSize(width: 100, height: 100)
     static let shared = PhotosProxy()
+
+    static let loadingPhotosCompleteEvent = NSNotification.Name("loadingPhotosComplete")
     
     var photos = [Photo]()
     
-    func loadPhotos(completionBlock: ((_ photos: [Photo])->())?) {
+    func loadPhotos() {
         self.fetchPhotos(targetSize: PhotosProxy.thumbnailItemSize, completionBlock: { photos in
             self.photos = photos
-            completionBlock?(photos)
+            NotificationCenter.default.post(name: PhotosProxy.loadingPhotosCompleteEvent, object: nil)
         })
     }
     

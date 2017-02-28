@@ -13,13 +13,20 @@ protocol ImagePickerDelegate : class {
     func didDeselectImage(imagePicker: ImagePicker)
 }
 
-class ImagePicker : UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource {
+class ImagePicker : UIView, UICollectionViewDelegate, UICollectionViewDataSource {
     
     var selectedItem : Int?
     
-    let layout = UICollectionViewFlowLayout()
-    let itemSize = CGSize(width: 100, height: 100)
-    weak var imagePickerDelegate : ImagePickerDelegate?
+    weak var delegate : ImagePickerDelegate?
+    var collectionView : UICollectionView!
+    let layout : UICollectionViewFlowLayout = {
+        let l = UICollectionViewFlowLayout()
+        l.itemSize = CGSize(width: 100, height: 100)
+        l.scrollDirection = .horizontal
+        l.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        l.minimumInteritemSpacing = 5
+        return l
+    }()
     
     var photos : [Photo] {
         get {
@@ -27,41 +34,46 @@ class ImagePicker : UICollectionView, UICollectionViewDelegate, UICollectionView
         }
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        self.initialize()
-    }
-    
     init(delegate: ImagePickerDelegate) {
-        self.imagePickerDelegate = delegate
-        super.init(frame: .zero, collectionViewLayout: self.layout)
-        self.initialize()
+        super.init(frame: .zero)
+        self.delegate = delegate
+        self.backgroundColor = .clear
+        
+        self.setupCollectionView()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshData), name: PhotosProxy.loadingPhotosCompleteEvent, object: nil)
+        PhotosProxy.shared.loadPhotos()
     }
     
-    func initialize() {
-        self.backgroundColor = UIColor(white: 0, alpha: 0.8)
-        self.register(ImagePickerPhotoCell.self, forCellWithReuseIdentifier: "photoCell")
-        self.layout.itemSize = self.itemSize
-        self.layout.scrollDirection = .horizontal
-        self.layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-        self.layout.minimumInteritemSpacing = 5
-        self.delegate = self
-        self.dataSource = self
+    func setupCollectionView() {
+        self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: self.layout)
+        self.collectionView.delegate = self
+        self.collectionView.dataSource = self
+        self.collectionView.collectionViewLayout = self.layout
+        self.collectionView.backgroundColor = UIColor(white: 0, alpha: 0.8)
+        self.collectionView.register(ImagePickerPhotoCell.self, forCellWithReuseIdentifier: "photoCell")
         
-        PhotosProxy.shared.loadPhotos { _ in
-            self.reloadSections([0])
-        }
+        self.collectionView.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(self.collectionView)
+        NSLayoutConstraint.activate([
+            self.collectionView.topAnchor.constraint(equalTo: self.topAnchor),
+            self.collectionView.leftAnchor.constraint(equalTo: self.leftAnchor),
+            self.collectionView.rightAnchor.constraint(equalTo: self.rightAnchor),
+            self.collectionView.heightAnchor.constraint(equalToConstant: 110)
+            ])
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func refreshData() {
+        self.collectionView.reloadSections([0])
     }
     
     //MARK: - UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.photos.count
-    }
-    
-    override var numberOfSections: Int {
-        get {
-            return 1
-        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -79,7 +91,7 @@ class ImagePicker : UICollectionView, UICollectionViewDelegate, UICollectionView
         if cell.checked {
             cell.checked = false
             self.selectedItem = nil
-            self.imagePickerDelegate?.didDeselectImage(imagePicker: self)
+            self.delegate?.didDeselectImage(imagePicker: self)
             
         } else {
             if let previousSelectedItem = self.selectedItem {
@@ -91,7 +103,7 @@ class ImagePicker : UICollectionView, UICollectionViewDelegate, UICollectionView
             self.photos[indexPath.item].getImage(completionBlock: { (image) in
                 self.isUserInteractionEnabled = true
                 if let image = image {
-                    self.imagePickerDelegate?.didSelectImage(imagePicker: self, image: image)
+                    self.delegate?.didSelectImage(imagePicker: self, image: image)
                 }
             })
         }
@@ -99,7 +111,7 @@ class ImagePicker : UICollectionView, UICollectionViewDelegate, UICollectionView
     }
     
     fileprivate func getCellAtIndex(_ index: Int) -> ImagePickerPhotoCell? {
-        return self.cellForItem(at: IndexPath(item: index, section: 0)) as? ImagePickerPhotoCell
+        return self.collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? ImagePickerPhotoCell
     }
 }
 
