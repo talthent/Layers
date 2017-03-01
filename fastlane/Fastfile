@@ -22,9 +22,9 @@ end
 lane :ios do  
   ensure_git_status_clean
   git_pull
-  scan(
-    scheme: "Layers"
-  )  
+  # scan(
+  #   scheme: "Layers"
+  # )  
   ensure_git_status_clean
   increment_build_number
   commit_version_bump
