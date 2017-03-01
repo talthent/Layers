@@ -1,0 +1,55 @@
+# More documentation about how to customize your build
+# can be found here:
+# https://docs.fastlane.tools
+fastlane_version "1.109.0"
+
+# This value helps us track success metrics for Fastfiles
+# we automatically generate. Feel free to remove this line
+# once you get things running smoothly!
+#generated_fastfile_id "fc660f54-f2ea-4da7-9a96-59302b402341"
+
+default_platform :ios
+
+before_all do
+  # slack_url = get_global_value(key: "BMESlackUrl")
+  # ENV["SLACK_URL"] = slack_url
+  # ENV["BME_APP_TITLE"] = "Be My Eyes – Helping blind see"
+end
+
+# Fastfile actions accept additional configuration, but
+# don't worry, fastlane will prompt you for required
+# info which you can add here later
+lane :ios do  
+  ensure_git_status_clean
+  git_pull
+  scan(
+    scheme: "Layers"
+  )  
+  ensure_git_status_clean
+  increment_build_number
+  commit_version_bump
+  push_to_git_remote
+
+  # build your iOS app
+  gym(
+    scheme: "Layers"
+  )
+
+  # upload to Testflight
+  pilot(skip_waiting_for_build_processing: true,
+        username: "talthent@gmail.com")
+
+  # slack(
+  #   # slack_url: "https://hooks.slack.com/services/IDS"
+  # )
+end
+
+after_all do |lane|
+  clean_build_artifacts
+  notification(subtitle: "Finished Building", message: "Ready to upload...") # Mac OS X Notification
+end
+
+error do |lane, exception|
+  clean_build_artifacts
+  # Something bad happened
+end
