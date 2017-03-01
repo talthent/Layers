@@ -18,7 +18,7 @@ class ImagePicker : UIView, UICollectionViewDelegate, UICollectionViewDataSource
     static let maxHeight : CGFloat = 110
     static let minHeight : CGFloat = 10
     
-    var selectedItem : Int?
+    var selectedItemId : String?
     
     weak var delegate : ImagePickerDelegate?
     var collectionView : UICollectionView!
@@ -31,7 +31,7 @@ class ImagePicker : UIView, UICollectionViewDelegate, UICollectionViewDataSource
         return l
     }()
     
-    var photos : [Photo] {
+    var photos : [String] {
         get {
             return PhotosProxy.shared.photos
         }
@@ -83,8 +83,9 @@ class ImagePicker : UIView, UICollectionViewDelegate, UICollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for: indexPath) as! ImagePickerPhotoCell
-        cell.checked = self.selectedItem == indexPath.item
-        cell.image = self.photos[indexPath.item].thumbnail
+        let imageId = self.photos[indexPath.item]
+        cell.image = PhotosProxy.shared.getPhoto(id: imageId).thumbnail
+        cell.checked = self.selectedItemId == imageId
         return cell
     }
 
@@ -94,24 +95,34 @@ class ImagePicker : UIView, UICollectionViewDelegate, UICollectionViewDataSource
         }
         if cell.checked {
             cell.checked = false
-            self.selectedItem = nil
+            self.selectedItemId = nil
             self.delegate?.didDeselectImage(imagePicker: self)
             
         } else {
-            if let previousSelectedItem = self.selectedItem {
-                self.getCellAtIndex(previousSelectedItem)?.checked = false
+            if let previousSelectedItemId = self.selectedItemId,
+                let previousSelectedCellIndexPath = self.getPhotoIndex(id: previousSelectedItemId) {
+                self.getCellAtIndex(previousSelectedCellIndexPath)?.checked = false
             }
             cell.checked = true
-            self.selectedItem = indexPath.item
             self.isUserInteractionEnabled = false
-            self.photos[indexPath.item].getImage(completionBlock: { (image) in
+            let imageId = self.photos[indexPath.item]
+            self.selectedItemId = imageId
+            PhotosProxy.shared.getImage(id: imageId, completionBlock: { (image) in
                 self.isUserInteractionEnabled = true
                 if let image = image {
                     self.delegate?.didSelectImage(imagePicker: self, image: image)
                 }
             })
         }
-        
+    }
+    
+    func getPhotoIndex(id: String) -> Int? {
+        for i in 0..<self.photos.count {
+            if self.photos[i] == id {
+                return i
+            }
+        }
+        return nil
     }
     
     fileprivate func getCellAtIndex(_ index: Int) -> ImagePickerPhotoCell? {

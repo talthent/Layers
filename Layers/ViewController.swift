@@ -45,6 +45,8 @@ class ViewController: UIViewController {
     }
     
     fileprivate func setupViews() {
+        self.view.backgroundColor = .black
+        
         self.videoBox.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(self.videoBox)
         NSLayoutConstraint.activate([
@@ -120,6 +122,7 @@ class ViewController: UIViewController {
     }
     
     func captureButtonTapped() {
+        
         self.cameraEngine.captureAndMerge(maskedImage: try! self.masksPicker.renderMaskedImage())
         self.startCaptureAnimation()
     }
@@ -232,7 +235,8 @@ extension ViewController : UIViewControllerPreviewingDelegate {
         guard let cell = self.imagePicker.collectionView.cellForItem(at: indexPath) else {
             return nil
         }
-        let photoVC = PreviewViewController(photo: self.imagePicker.photos[indexPath.item])
+        let imageId = self.imagePicker.photos[indexPath.item]
+        let photoVC = PreviewViewController(photo: PhotosProxy.shared.getPhoto(id: imageId))
         photoVC.rootViewController = self
         previewingContext.sourceRect = cell.frame
         return photoVC

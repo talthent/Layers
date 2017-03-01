@@ -15,7 +15,8 @@ class PhotosProxy {
 
     static let loadingPhotosCompleteEvent = NSNotification.Name("loadingPhotosComplete")
     
-    var photos = [Photo]()
+    var photos = [String]()
+    var photosBucket = [String:Photo]()
     
     func loadPhotos() {
         PHPhotoLibrary.requestAuthorization { (auth) in
@@ -31,8 +32,20 @@ class PhotosProxy {
         }
     }
     
-    fileprivate func fetchPhotos(amount : Int? = nil, targetSize size: CGSize, completionBlock: ((_ photos: [Photo])->())?){
-        var photos = [Photo]()
+    func getThumbnail(id : String, completionBlock: ((UIImage?)->())?) {
+        self.photosBucket[id]!.getThumbnail(completionBlock: completionBlock)
+    }
+    
+    func getImage(id : String, completionBlock: ((UIImage?)->())?) {
+        self.photosBucket[id]!.getImage(completionBlock: completionBlock)
+    }
+    
+    func getPhoto(id : String) -> Photo {
+        return self.photosBucket[id]!
+    }
+    
+    fileprivate func fetchPhotos(amount : Int? = nil, targetSize size: CGSize, completionBlock: ((_ photos: [String])->())?){
+        var photos = [String]()
         
         let group = DispatchGroup()
         let options = PHFetchOptions()
@@ -43,13 +56,15 @@ class PhotosProxy {
         options.sortDescriptors = [sortDescriptor]
         let fetchResult = PHAsset.fetchAssets(with: .image, options: options)
         fetchResult.enumerateObjects({ (asset, id, bool) in
-            photos.append(Photo(asset: asset))
+            if self.photosBucket[asset.localIdentifier] == nil {
+                self.photosBucket[asset.localIdentifier] = Photo(asset: asset)
+            }
+            photos.append(asset.localIdentifier)
         })
         
         for i in 0..<photos.count {
             group.enter()
-            photos[i].getThumbnail(completionBlock: { (thumbnail) in
-                photos[i].thumbnail = thumbnail
+            self.photosBucket[photos[i]]!.getThumbnail(completionBlock: { (thumbnail) in
                 group.leave()
             })
             

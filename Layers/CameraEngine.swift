@@ -79,11 +79,15 @@ class CameraEngine : NSObject {
     
     //MARK: ACTIONS
     func captureAndMerge(maskedImage: UIImage) {
+        guard let position = self.captureDevice?.position else {
+            return
+        }
+        let mask = position == .back ? maskedImage : UIImage(cgImage: maskedImage.cgImage!, scale: 1, orientation: .upMirrored)
         self.capture(success: { (image) in
             
             UIGraphicsBeginImageContext(image.size)
             image.draw(in: CGRect(origin: .zero, size: image.size))
-            maskedImage.draw(in: CGRect(origin: .zero, size: image.size))
+            mask.draw(in: CGRect(origin: .zero, size: image.size))
             let mergedImage = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
             if mergedImage != nil {
