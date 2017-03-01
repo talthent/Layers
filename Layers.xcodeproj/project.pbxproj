@@ -563,6 +563,7 @@
 			baseConfigurationReference = 8144840E0BE79CC0BE62F5E0 /* Pods-Layers.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 9P63DYGH75;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -574,6 +575,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = talthent.layers;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
@@ -582,6 +584,7 @@
 			baseConfigurationReference = C2A36A6DD87D2BEFC7D5AB1D /* Pods-Layers.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 9P63DYGH75;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -593,6 +596,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = talthent.layers;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
 		};
