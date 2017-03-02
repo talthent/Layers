@@ -42,6 +42,31 @@ class ViewController: UIViewController {
         if traitCollection.forceTouchCapability == .available {
             registerForPreviewing(with: self, sourceView: self.view)
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotifications(notification:)), name: PhotosProxy.loadingPhotosCompleteEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotifications(notification:)), name: PhotosProxy.onePhotoAddedEvent, object: nil)
+        
+        PhotosProxy.shared.loadPhotos()
+    }
+    
+    func handleNotifications(notification: Notification) {
+        switch notification.name {
+        case PhotosProxy.loadingPhotosCompleteEvent:
+            self.expandImagePicker(animated: true)
+        default:
+            break;
+        }
+    }
+    
+    fileprivate func expandImagePicker(animated: Bool) {
+        self.imagePickerHeightConstraint?.constant = ImagePicker.maxHeight
+        if animated {
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.8, options: .allowUserInteraction, animations: {
+            self.view.layoutIfNeeded()
+        }, completion: nil)
+        } else {
+            self.view.layoutIfNeeded()
+        }
     }
     
     fileprivate func setupViews() {
@@ -69,7 +94,7 @@ class ViewController: UIViewController {
         self.imagePicker = ImagePicker(delegate: self)
         self.imagePicker.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(self.imagePicker)
-        self.imagePickerHeightConstraint = self.imagePicker.heightAnchor.constraint(equalToConstant: 110)
+        self.imagePickerHeightConstraint = self.imagePicker.heightAnchor.constraint(equalToConstant: ImagePicker.minHeight)
         NSLayoutConstraint.activate([
             self.imagePicker.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             self.imagePicker.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),

@@ -46,8 +46,8 @@ class Photo {
             return
         }
         let options = PHImageRequestOptions()
-        options.resizeMode = .fast
-        options.deliveryMode = .fastFormat
+        options.resizeMode = .exact
+        options.deliveryMode = .highQualityFormat
         PHImageManager.default().requestImage(for: self.asset, targetSize: PhotosProxy.thumbnailItemSize, contentMode: .aspectFill, options: options, resultHandler: { result, info in
             if let result = result {
                 self.thumbnail = result

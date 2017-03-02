@@ -44,10 +44,21 @@ class ImagePicker : UIView, UICollectionViewDelegate, UICollectionViewDataSource
         
         self.setupCollectionView()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(refreshData), name: PhotosProxy.loadingPhotosCompleteEvent, object: nil)
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotifications(notification:)), name: PhotosProxy.loadingPhotosCompleteEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotifications(notification:)), name: PhotosProxy.onePhotoAddedEvent, object: nil)
         
         PhotosProxy.shared.loadPhotos()
+    }
+    
+    func handleNotifications(notification: Notification) {
+        switch notification.name {
+        case PhotosProxy.onePhotoAddedEvent:
+            self.refreshData()
+        case PhotosProxy.loadingPhotosCompleteEvent:
+            self.refreshData()
+        default:
+            break;
+        }
     }
     
     func setupCollectionView() {

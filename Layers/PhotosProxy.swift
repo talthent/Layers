@@ -10,19 +10,27 @@ import Photos
 
 class PhotosProxy {
 
-    static let thumbnailItemSize = CGSize(width: 100, height: 100)
+    static let thumbnailItemSize = CGSize(width: 200, height: 200)
     static let shared = PhotosProxy()
 
     static let loadingPhotosCompleteEvent = NSNotification.Name("loadingPhotosComplete")
+    static let onePhotoAddedEvent = Notification.Name("onePhotoAddedEvent")
     
     var photos = [String]()
     var photosBucket = [String:Photo]()
+    
+    func loadLastPhoto() {
+        self.fetchPhotos(amount: 1) { (photos) in
+            self.photos.insert(photos[0], at: 0)
+            NotificationCenter.default.post(name: PhotosProxy.onePhotoAddedEvent, object: nil)
+        }
+    }
     
     func loadPhotos() {
         PHPhotoLibrary.requestAuthorization { (auth) in
             switch auth {
             case .authorized:
-                self.fetchPhotos(targetSize: PhotosProxy.thumbnailItemSize, completionBlock: { photos in
+                self.fetchPhotos(completionBlock: { photos in
                     self.photos = photos
                     NotificationCenter.default.post(name: PhotosProxy.loadingPhotosCompleteEvent, object: nil)
                 })
@@ -44,7 +52,7 @@ class PhotosProxy {
         return self.photosBucket[id]!
     }
     
-    fileprivate func fetchPhotos(amount : Int? = nil, targetSize size: CGSize, completionBlock: ((_ photos: [String])->())?){
+    fileprivate func fetchPhotos(amount : Int? = nil, completionBlock: ((_ photos: [String])->())?){
         var photos = [String]()
         
         let group = DispatchGroup()
@@ -54,6 +62,7 @@ class PhotosProxy {
         }
         let sortDescriptor = NSSortDescriptor(key: "creationDate", ascending: false)
         options.sortDescriptors = [sortDescriptor]
+        
         let fetchResult = PHAsset.fetchAssets(with: .image, options: options)
         fetchResult.enumerateObjects({ (asset, id, bool) in
             if self.photosBucket[asset.localIdentifier] == nil {
@@ -61,15 +70,13 @@ class PhotosProxy {
             }
             photos.append(asset.localIdentifier)
         })
-        
         for i in 0..<photos.count {
             group.enter()
             self.photosBucket[photos[i]]!.getThumbnail(completionBlock: { (thumbnail) in
                 group.leave()
             })
-            
         }
-        group.notify(queue: DispatchQueue.main, work: DispatchWorkItem(block: { 
+        group.notify(queue: DispatchQueue.main, work: DispatchWorkItem(block: {
             completionBlock?(photos)
         }))
     }

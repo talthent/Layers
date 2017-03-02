@@ -123,7 +123,7 @@ class CameraEngine : NSObject {
     
     func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
         if error == nil {
-            PhotosProxy.shared.loadPhotos()
+            PhotosProxy.shared.loadLastPhoto()
         }
     }
     
