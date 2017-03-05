@@ -4,6 +4,6 @@ target 'Layers' do
   use_frameworks!
 
 pod 'Instabug'
-
+pod ‘Firebase/Core’
 
 end

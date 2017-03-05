@@ -16,6 +16,8 @@
 		B9720E001E65932B008A1423 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9720DFE1E65932B008A1423 /* Fabric.framework */; };
 		B9720E011E65932B008A1423 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9720DFF1E65932B008A1423 /* Crashlytics.framework */; };
 		B97ACDA41E6C715F00523FB1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B97ACDA31E6C715F00523FB1 /* Assets.xcassets */; };
+		B97ACDA61E6CAF7F00523FB1 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97ACDA51E6CAF7F00523FB1 /* Constants.swift */; };
+		B97ACDA81E6CB8EC00523FB1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B97ACDA71E6CB8EC00523FB1 /* GoogleService-Info.plist */; };
 		B9A1CCE81E6317CE00A9DD3F /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A1CCE71E6317CE00A9DD3F /* ImagePicker.swift */; };
 		B9B0BEA41E644EC5007B5D6E /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B0BEA31E644EC5007B5D6E /* UIColorExtension.swift */; };
 		B9C303741E5CE379004C0FE1 /* CameraEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C303731E5CE379004C0FE1 /* CameraEngine.swift */; };
@@ -54,6 +56,8 @@
 		B9720DFE1E65932B008A1423 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		B9720DFF1E65932B008A1423 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		B97ACDA31E6C715F00523FB1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Layers/Assets.xcassets; sourceTree = SOURCE_ROOT; };
+		B97ACDA51E6CAF7F00523FB1 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = SOURCE_ROOT; };
+		B97ACDA71E6CB8EC00523FB1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		B9A1CCE71E6317CE00A9DD3F /* ImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImagePicker.swift; path = Layers/ImagePicker.swift; sourceTree = SOURCE_ROOT; };
 		B9B0BEA31E644EC5007B5D6E /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIColorExtension.swift; path = Layers/UIColorExtension.swift; sourceTree = SOURCE_ROOT; };
 		B9C303731E5CE379004C0FE1 /* CameraEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraEngine.swift; path = Layers/CameraEngine.swift; sourceTree = SOURCE_ROOT; };
@@ -142,6 +146,8 @@
 			isa = PBXGroup;
 			children = (
 				C779EB441DA625B800BFF796 /* AppDelegate.swift */,
+				B97ACDA51E6CAF7F00523FB1 /* Constants.swift */,
+				B97ACDA71E6CB8EC00523FB1 /* GoogleService-Info.plist */,
 			);
 			name = App;
 			sourceTree = "<group>";
@@ -339,6 +345,7 @@
 			files = (
 				B97ACDA41E6C715F00523FB1 /* Assets.xcassets in Resources */,
 				B9E955E51E656AEF00588BC1 /* LaunchScreen.storyboard in Resources */,
+				B97ACDA81E6CB8EC00523FB1 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -435,6 +442,7 @@
 				B9A1CCE81E6317CE00A9DD3F /* ImagePicker.swift in Sources */,
 				B94C54191E5EEA4D00EC2527 /* UIImageViewExtension.swift in Sources */,
 				B9C303761E5CEC88004C0FE1 /* PhotosProxy.swift in Sources */,
+				B97ACDA61E6CAF7F00523FB1 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

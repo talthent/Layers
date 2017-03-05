@@ -8,6 +8,7 @@
 
 import UIKit
 import Foundation
+import FirebaseAnalytics
 
 class ViewController: UIViewController {
     
@@ -147,12 +148,13 @@ class ViewController: UIViewController {
     }
     
     func captureButtonTapped() {
-        
+        FIRAnalytics.logEvent(withName: userTookAPhotoEvent, parameters: ["hasMask" : (self.masksPicker.image != nil) as NSObject])
         self.cameraEngine.captureAndMerge(maskedImage: try! self.masksPicker.renderMaskedImage())
         self.startCaptureAnimation()
     }
     
     func flipCameraButtonTapped() {
+        FIRAnalytics.logEvent(withName: userFlippedCameraEvent, parameters: nil)
         self.cameraEngine.flipCamera()
         self.setupCamera()
     }
@@ -177,6 +179,7 @@ class ViewController: UIViewController {
     
     //MARK: Gesture Handlers
     func tapGestureHandler(tap : UITapGestureRecognizer) {
+        FIRAnalytics.logEvent(withName: userChangedMaskEvent, parameters: nil)
         self.masksPicker.changeMask()
     }
     
@@ -242,6 +245,7 @@ extension ViewController : UIGestureRecognizerDelegate {
 //MARK: ImagePickerDelegate
 extension ViewController : ImagePickerDelegate {
     func didSelectImage(imagePicker: ImagePicker, image: UIImage) {
+        FIRAnalytics.logEvent(withName: userChoseAPhotoFromGalleryEvent, parameters: nil)
         self.masksPicker.image = image
     }
     
@@ -253,6 +257,7 @@ extension ViewController : ImagePickerDelegate {
 //MARK: UIViewControllerPreviewingDelegate
 extension ViewController : UIViewControllerPreviewingDelegate {
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        FIRAnalytics.logEvent(withName: user3DTouchedPhotoFromGalleryEvent, parameters: nil)
         let point = self.view.convert(location, to: self.imagePicker.collectionView)
         guard let indexPath = self.imagePicker.collectionView.indexPathForItem(at: point) else {
             return nil
