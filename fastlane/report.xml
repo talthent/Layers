@@ -5,24 +5,62 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="0: Verifying required fastlane version" time="0.002378">
+      <testcase classname="fastlane.lanes" name="00: Verifying required fastlane version" time="0.002119">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="1: default_platform" time="0.001651">
+      <testcase classname="fastlane.lanes" name="01: default_platform" time="0.001624">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="2: ensure_git_status_clean" time="0.057518">
-        
-          <failure message="/usr/local/lib/fastlane_lib/bundle/lib/ruby/gems/2.2.0/gems/fastlane-2.18.3/fastlane/lib/fastlane/actions/actions_helper.rb:48:in `execute_action'&#10;/usr/local/lib/fastlane_lib/bundle/lib/ruby/gems/2.2.0/gems/fastlane-2.18.3/fastlane/lib/fastlane/runner.rb:221:in `block in execute_action'&#10;/usr/local/lib/fastlane_lib/bundle/lib/ruby/gems/2.2.0/gems/fastlane-2.18.3/fastlane/lib/fastlane/runner.rb:217:in `chdir'&#10;/usr/local/lib/fastlane_lib/bundle/lib/ruby/gems/2.2.0/gems/fastlane-2.18.3/fastlane/lib/fastlane/runner.rb:217:in `execute_action'&#10;/usr/local/lib/fastlane_lib/bundle/lib/ruby/gems/2.2.0/gems/fastlane-2.18.3/fastlane/lib/fastlane/runner.rb:139:in `trigger_action_by_name'&#10;/usr/local/lib/fastlane_lib/bundle/lib/ruby/gems/2.2.0/gems/fastlane-2.18.3/fastlane/lib/fastlane/fast_file.rb:146:in `method_missing'&#10;Fastfile:23:in `block in parsing_binding'&#10;/usr/local/lib/fastlane_lib/bundle/lib/ruby/gems/2.2.0/gems/fastlane-2.18.3/fastlane/lib/fastlane/lane.rb:33:in `call'&#10;/usr/local/lib/fastlane_lib/bundle/lib/ruby/gems/2.2.0/gems/fastlane-2.18.3/fastlane/lib/fastlane/lane.rb:33:in `call'&#10;/usr/local/lib/fastlane_lib/bundle/lib/ruby/gems/2.2.0/gems/fastlane-2.18.3/fastlane/lib/fastlane/runner.rb:49:in `block in execute'&#10;/usr/local/lib/fastlane_lib/bundle/lib/ruby/gems/2.2.0/gems/fastlane-2.18.3/fastlane/lib/fastlane/runner.rb:45:in `chdir'&#10;/usr/local/lib/fastlane_lib/bundle/lib/ruby/gems/2.2.0/gems/fastlane-2.18.3/fastlane/lib/fastlane/runner.rb:45:in `execute'&#10;/usr/local/lib/fastlane_lib/bundle/lib/ruby/gems/2.2.0/gems/fastlane-2.18.3/fastlane/lib/fastlane/lane_manager.rb:52:in `cruise_lane'&#10;/usr/local/lib/fastlane_lib/bundle/lib/ruby/gems/2.2.0/gems/fastlane-2.18.3/fastlane/lib/fastlane/command_line_handler.rb:30:in `handle'&#10;/usr/local/lib/fastlane_lib/bundle/lib/ruby/gems/2.2.0/gems/fastlane-2.18.3/fastlane/lib/fastlane/commands_generator.rb:105:in `block (2 levels) in run'&#10;/usr/local/lib/fastlane_lib/bundle/lib/ruby/gems/2.2.0/gems/commander-4.4.3/lib/commander/command.rb:178:in `call'&#10;/usr/local/lib/fastlane_lib/bundle/lib/ruby/gems/2.2.0/gems/commander-4.4.3/lib/commander/command.rb:178:in `call'&#10;/usr/local/lib/fastlane_lib/bundle/lib/ruby/gems/2.2.0/gems/commander-4.4.3/lib/commander/command.rb:153:in `run'&#10;/usr/local/lib/fastlane_lib/bundle/lib/ruby/gems/2.2.0/gems/commander-4.4.3/lib/commander/runner.rb:446:in `run_active_command'&#10;/usr/local/lib/fastlane_lib/bundle/lib/ruby/gems/2.2.0/gems/fastlane-2.18.3/fastlane_core/lib/fastlane_core/ui/fastlane_runner.rb:38:in `run!'&#10;/usr/local/lib/fastlane_lib/bundle/lib/ruby/gems/2.2.0/gems/commander-4.4.3/lib/commander/delegates.rb:15:in `run!'&#10;/usr/local/lib/fastlane_lib/bundle/lib/ruby/gems/2.2.0/gems/fastlane-2.18.3/fastlane/lib/fastlane/commands_generator.rb:302:in `run'&#10;/usr/local/lib/fastlane_lib/bundle/lib/ruby/gems/2.2.0/gems/fastlane-2.18.3/fastlane/lib/fastlane/commands_generator.rb:42:in `start'&#10;/usr/local/lib/fastlane_lib/bundle/lib/ruby/gems/2.2.0/gems/fastlane-2.18.3/fastlane/lib/fastlane/cli_tools_distributor.rb:65:in `take_off'&#10;/usr/local/lib/fastlane_lib/bundle/lib/ruby/gems/2.2.0/gems/fastlane-2.18.3/bin/fastlane:15:in `&lt;top (required)&gt;'&#10;/usr/local/lib/fastlane_lib/bundle/bin/fastlane:22:in `load'&#10;/usr/local/lib/fastlane_lib/bundle/bin/fastlane:22:in `&lt;main&gt;'&#10;&#10;Git repository is dirty! Please ensure the repo is in a clean state by commiting/stashing/discarding all changes first." />
+      <testcase classname="fastlane.lanes" name="02: ensure_git_status_clean" time="0.011599">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="3: clean_build_artifacts" time="0.002271">
+      <testcase classname="fastlane.lanes" name="03: git_pull" time="10.405433">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="04: ensure_git_status_clean" time="0.014468">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="05: increment_build_number" time="1.312668">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="06: commit_version_bump" time="0.264011">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="07: push_to_git_remote" time="7.148166">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="08: gym" time="60.174705">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="09: pilot" time="325.159466">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="10: clean_build_artifacts" time="0.006356">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="11: notification" time="0.321516">
         
       </testcase>
     
