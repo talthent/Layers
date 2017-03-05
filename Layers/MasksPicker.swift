@@ -12,17 +12,16 @@ class MasksPicker: UIImageView {
     
     var selectedMask = 0
     
-    let masks = [
-        UIImage(named: "m1"),
-        UIImage(named: "m2"),
-        UIImage(named: "m3"),
-        UIImage(named: "m4"),
-        UIImage(named: "m5"),
-        UIImage(named: "m6"),
-        UIImage(named: "m7")
-    ]
+    var masks = [UIImage]()
     
     init() {
+        var i = 0
+        var nextMask = UIImage(named: "m\(i)")
+        while nextMask != nil {
+            self.masks.append(nextMask!)
+            i += 1
+            nextMask = UIImage(named: "m\(i)")
+        }
         super.init(frame: .zero)
         self.backgroundColor = .clear
         self.contentMode = .scaleAspectFill
@@ -39,7 +38,7 @@ class MasksPicker: UIImageView {
     
     func createMask() {
         let maskLayer = CALayer()
-        maskLayer.contents = self.masks[self.selectedMask]?.cgImage
+        maskLayer.contents = self.masks[self.selectedMask].cgImage
         maskLayer.frame = self.bounds
         self.layer.mask = maskLayer
         self.layer.masksToBounds = true

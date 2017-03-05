@@ -15,6 +15,7 @@
 		B9720DFC1E658386008A1423 /* CaptureButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9720DFB1E658386008A1423 /* CaptureButton.swift */; };
 		B9720E001E65932B008A1423 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9720DFE1E65932B008A1423 /* Fabric.framework */; };
 		B9720E011E65932B008A1423 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9720DFF1E65932B008A1423 /* Crashlytics.framework */; };
+		B97ACDA41E6C715F00523FB1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B97ACDA31E6C715F00523FB1 /* Assets.xcassets */; };
 		B9A1CCE81E6317CE00A9DD3F /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A1CCE71E6317CE00A9DD3F /* ImagePicker.swift */; };
 		B9B0BEA41E644EC5007B5D6E /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B0BEA31E644EC5007B5D6E /* UIColorExtension.swift */; };
 		B9C303741E5CE379004C0FE1 /* CameraEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C303731E5CE379004C0FE1 /* CameraEngine.swift */; };
@@ -22,7 +23,6 @@
 		B9E955E51E656AEF00588BC1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9E955E31E656AEF00588BC1 /* LaunchScreen.storyboard */; };
 		C779EB451DA625B800BFF796 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C779EB441DA625B800BFF796 /* AppDelegate.swift */; };
 		C779EB471DA625B800BFF796 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C779EB461DA625B800BFF796 /* ViewController.swift */; };
-		C779EB4C1DA625B800BFF796 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C779EB4B1DA625B800BFF796 /* Assets.xcassets */; };
 		C779EB5A1DA625B900BFF796 /* CustomCameraTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C779EB591DA625B900BFF796 /* CustomCameraTests.swift */; };
 		C779EB651DA625B900BFF796 /* CustomCameraUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C779EB641DA625B900BFF796 /* CustomCameraUITests.swift */; };
 /* End PBXBuildFile section */
@@ -53,6 +53,7 @@
 		B9720DFB1E658386008A1423 /* CaptureButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CaptureButton.swift; sourceTree = SOURCE_ROOT; };
 		B9720DFE1E65932B008A1423 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		B9720DFF1E65932B008A1423 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		B97ACDA31E6C715F00523FB1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Layers/Assets.xcassets; sourceTree = SOURCE_ROOT; };
 		B9A1CCE71E6317CE00A9DD3F /* ImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImagePicker.swift; path = Layers/ImagePicker.swift; sourceTree = SOURCE_ROOT; };
 		B9B0BEA31E644EC5007B5D6E /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIColorExtension.swift; path = Layers/UIColorExtension.swift; sourceTree = SOURCE_ROOT; };
 		B9C303731E5CE379004C0FE1 /* CameraEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraEngine.swift; path = Layers/CameraEngine.swift; sourceTree = SOURCE_ROOT; };
@@ -62,7 +63,6 @@
 		C779EB411DA625B800BFF796 /* Layers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Layers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C779EB441DA625B800BFF796 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Layers/AppDelegate.swift; sourceTree = SOURCE_ROOT; };
 		C779EB461DA625B800BFF796 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = Layers/ViewController.swift; sourceTree = SOURCE_ROOT; };
-		C779EB4B1DA625B800BFF796 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Layers/Assets.xcassets; sourceTree = SOURCE_ROOT; };
 		C779EB551DA625B900BFF796 /* LayersTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LayersTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C779EB591DA625B900BFF796 /* CustomCameraTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CustomCameraTests.swift; path = LayersTests/CustomCameraTests.swift; sourceTree = SOURCE_ROOT; };
 		C779EB5B1DA625B900BFF796 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = LayersTests/Info.plist; sourceTree = SOURCE_ROOT; };
@@ -128,6 +128,24 @@
 			name = Extensions;
 			sourceTree = "<group>";
 		};
+		B97ACDA11E6C6DA200523FB1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B9C303731E5CE379004C0FE1 /* CameraEngine.swift */,
+				B9C303751E5CEC88004C0FE1 /* PhotosProxy.swift */,
+				B90870811E648E13006F8263 /* Photo.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		B97ACDA21E6C6DB000523FB1 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				C779EB441DA625B800BFF796 /* AppDelegate.swift */,
+			);
+			name = App;
+			sourceTree = "<group>";
+		};
 		B9E955E21E656AEF00588BC1 /* Base.lproj */ = {
 			isa = PBXGroup;
 			children = (
@@ -140,6 +158,8 @@
 		B9F82DE41E63203900FFAC61 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C779EB461DA625B800BFF796 /* ViewController.swift */,
+				B90870831E649381006F8263 /* PreviewViewController.swift */,
 				B9A1CCE71E6317CE00A9DD3F /* ImagePicker.swift */,
 				B9720DFB1E658386008A1423 /* CaptureButton.swift */,
 				B9585D941E64539800EE9C14 /* MasksPicker.swift */,
@@ -172,16 +192,12 @@
 		C779EB431DA625B800BFF796 /* Layers */ = {
 			isa = PBXGroup;
 			children = (
-				C779EB441DA625B800BFF796 /* AppDelegate.swift */,
-				C779EB461DA625B800BFF796 /* ViewController.swift */,
-				B90870831E649381006F8263 /* PreviewViewController.swift */,
+				B97ACDA21E6C6DB000523FB1 /* App */,
 				B94C541A1E5EEA5100EC2527 /* Extensions */,
 				B9F82DE41E63203900FFAC61 /* Views */,
-				B9C303731E5CE379004C0FE1 /* CameraEngine.swift */,
-				B9C303751E5CEC88004C0FE1 /* PhotosProxy.swift */,
-				B90870811E648E13006F8263 /* Photo.swift */,
+				B97ACDA11E6C6DA200523FB1 /* Model */,
 				B9E955E21E656AEF00588BC1 /* Base.lproj */,
-				C779EB4B1DA625B800BFF796 /* Assets.xcassets */,
+				B97ACDA31E6C715F00523FB1 /* Assets.xcassets */,
 			);
 			name = Layers;
 			path = Continuously;
@@ -321,7 +337,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C779EB4C1DA625B800BFF796 /* Assets.xcassets in Resources */,
+				B97ACDA41E6C715F00523FB1 /* Assets.xcassets in Resources */,
 				B9E955E51E656AEF00588BC1 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
