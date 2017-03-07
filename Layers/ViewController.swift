@@ -25,7 +25,22 @@ class ViewController: UIViewController {
     var flipCameraButton : UIButton = {
         let b = UIButton()
         b.setBackgroundImage(UIImage(named: "flipCamera"), for: .normal)
+        b.alpha = 0.8
         return b
+    }()
+    var addGridButton : UIButton = {
+        let b = UIButton()
+        b.setBackgroundImage(UIImage(named: "grid"), for: .normal)
+        b.alpha = 0.8
+        return b
+    }()
+    var gridView : GridView = {
+        let grid = GridView()
+        grid.backgroundColor = .clear
+        grid.isUserInteractionEnabled = false
+        grid.alpha = 0.5
+        grid.isHidden = true
+        return grid
     }()
     
     var cameraEngine = CameraEngine()
@@ -50,26 +65,6 @@ class ViewController: UIViewController {
         PhotosProxy.shared.loadPhotos()
     }
     
-    func handleNotifications(notification: Notification) {
-        switch notification.name {
-        case PhotosProxy.loadingPhotosCompleteEvent:
-            self.expandImagePicker(animated: true)
-        default:
-            break;
-        }
-    }
-    
-    fileprivate func expandImagePicker(animated: Bool) {
-        self.imagePickerHeightConstraint?.constant = ImagePicker.maxHeight
-        if animated {
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.8, options: .allowUserInteraction, animations: {
-            self.view.layoutIfNeeded()
-        }, completion: nil)
-        } else {
-            self.view.layoutIfNeeded()
-        }
-    }
-    
     fileprivate func setupViews() {
         self.view.backgroundColor = .black
         
@@ -92,6 +87,36 @@ class ViewController: UIViewController {
             self.masksPicker.topAnchor.constraint(equalTo: self.view.topAnchor)
             ])
         
+        self.flipCameraButton.addTarget(self, action: #selector(flipCameraButtonTapped), for: .touchUpInside)
+        self.flipCameraButton.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(self.flipCameraButton)
+        NSLayoutConstraint.activate([
+            self.flipCameraButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -10),
+            self.flipCameraButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 10),
+            self.flipCameraButton.widthAnchor.constraint(equalToConstant: 54),
+            self.flipCameraButton.heightAnchor.constraint(equalToConstant: 54)
+            ])
+        
+        self.addGridButton.addTarget(self, action: #selector(toggleGrid), for: .touchUpInside)
+        self.addGridButton.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(self.addGridButton)
+        NSLayoutConstraint.activate([
+            self.addGridButton.rightAnchor.constraint(equalTo: self.flipCameraButton.leftAnchor, constant: -10),
+            self.addGridButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 10),
+            self.addGridButton.widthAnchor.constraint(equalToConstant: 54),
+            self.addGridButton.heightAnchor.constraint(equalToConstant: 54)
+            ])
+        
+        //Grid should be added to view before imagePicker
+        self.gridView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(self.gridView)
+        NSLayoutConstraint.activate([
+            self.gridView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            self.gridView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            self.gridView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            self.gridView.topAnchor.constraint(equalTo: self.view.topAnchor)
+            ])
+        
         self.imagePicker = ImagePicker(delegate: self)
         self.imagePicker.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(self.imagePicker)
@@ -111,16 +136,6 @@ class ViewController: UIViewController {
             self.captureButton.bottomAnchor.constraint(equalTo: self.imagePicker.topAnchor, constant: -10),
             self.captureButton.widthAnchor.constraint(equalToConstant: 66),
             self.captureButton.heightAnchor.constraint(equalToConstant: 66)
-            ])
-        
-        self.flipCameraButton.addTarget(self, action: #selector(flipCameraButtonTapped), for: .touchUpInside)
-        self.flipCameraButton.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(self.flipCameraButton)
-        NSLayoutConstraint.activate([
-            self.flipCameraButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -10),
-            self.flipCameraButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 10),
-            self.flipCameraButton.widthAnchor.constraint(equalToConstant: 54),
-            self.flipCameraButton.heightAnchor.constraint(equalToConstant: 54)
             ])
     }
     
@@ -142,6 +157,26 @@ class ViewController: UIViewController {
         self.view.addGestureRecognizer(self.panGesture!)
     }
     
+    func handleNotifications(notification: Notification) {
+        switch notification.name {
+        case PhotosProxy.loadingPhotosCompleteEvent:
+            self.expandImagePicker(animated: true)
+        default:
+            break;
+        }
+    }
+    
+    fileprivate func expandImagePicker(animated: Bool) {
+        self.imagePickerHeightConstraint?.constant = ImagePicker.maxHeight
+        if animated {
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.8, options: .allowUserInteraction, animations: {
+            self.view.layoutIfNeeded()
+        }, completion: nil)
+        } else {
+            self.view.layoutIfNeeded()
+        }
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.masksPicker.createMask()
@@ -157,6 +192,10 @@ class ViewController: UIViewController {
         FIRAnalytics.logEvent(withName: userFlippedCameraEvent, parameters: nil)
         self.cameraEngine.flipCamera()
         self.setupCamera()
+    }
+    
+    func toggleGrid() {
+        self.gridView.isHidden = !self.gridView.isHidden
     }
     
     func startCaptureAnimation() {
