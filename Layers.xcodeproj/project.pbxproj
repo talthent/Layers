@@ -11,12 +11,14 @@
 		B90870821E648E13006F8263 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90870811E648E13006F8263 /* Photo.swift */; };
 		B90870841E649381006F8263 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90870831E649381006F8263 /* PreviewViewController.swift */; };
 		B94C54191E5EEA4D00EC2527 /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94C54181E5EEA4D00EC2527 /* UIImageViewExtension.swift */; };
+		B95498D81E7818A2001C28A9 /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95498D71E7818A2001C28A9 /* GridView.swift */; };
+		B95498DC1E7818B6001C28A9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95498DB1E7818B6001C28A9 /* Constants.swift */; };
+		B95498DE1E7818BF001C28A9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B95498DD1E7818BF001C28A9 /* GoogleService-Info.plist */; };
+		B95498E01E7818CE001C28A9 /* CaptureButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95498DF1E7818CE001C28A9 /* CaptureButton.swift */; };
+		B95498E21E7818DF001C28A9 /* ChangeMaskTutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95498E11E7818DF001C28A9 /* ChangeMaskTutorial.swift */; };
+		B95498E41E78190E001C28A9 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B95498E31E78190E001C28A9 /* Info.plist */; };
 		B9585D951E64539800EE9C14 /* MasksPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9585D941E64539800EE9C14 /* MasksPicker.swift */; };
-		B9720DFC1E658386008A1423 /* CaptureButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9720DFB1E658386008A1423 /* CaptureButton.swift */; };
 		B97ACDA41E6C715F00523FB1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B97ACDA31E6C715F00523FB1 /* Assets.xcassets */; };
-		B97ACDA61E6CAF7F00523FB1 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97ACDA51E6CAF7F00523FB1 /* Constants.swift */; };
-		B97ACDA81E6CB8EC00523FB1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B97ACDA71E6CB8EC00523FB1 /* GoogleService-Info.plist */; };
-		B98F93911E6F3C9C00C3F78F /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98F93901E6F3C9C00C3F78F /* GridView.swift */; };
 		B9A1CCE81E6317CE00A9DD3F /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A1CCE71E6317CE00A9DD3F /* ImagePicker.swift */; };
 		B9B0BEA41E644EC5007B5D6E /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B0BEA31E644EC5007B5D6E /* UIColorExtension.swift */; };
 		B9C303741E5CE379004C0FE1 /* CameraEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C303731E5CE379004C0FE1 /* CameraEngine.swift */; };
@@ -50,12 +52,14 @@
 		B90870811E648E13006F8263 /* Photo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Photo.swift; path = Layers/Photo.swift; sourceTree = SOURCE_ROOT; };
 		B90870831E649381006F8263 /* PreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreviewViewController.swift; path = Layers/PreviewViewController.swift; sourceTree = SOURCE_ROOT; };
 		B94C54181E5EEA4D00EC2527 /* UIImageViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIImageViewExtension.swift; path = Layers/UIImageViewExtension.swift; sourceTree = SOURCE_ROOT; };
+		B95498D71E7818A2001C28A9 /* GridView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GridView.swift; path = Layers/GridView.swift; sourceTree = SOURCE_ROOT; };
+		B95498DB1E7818B6001C28A9 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = Layers/Constants.swift; sourceTree = SOURCE_ROOT; };
+		B95498DD1E7818BF001C28A9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Layers/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
+		B95498DF1E7818CE001C28A9 /* CaptureButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CaptureButton.swift; path = Layers/CaptureButton.swift; sourceTree = SOURCE_ROOT; };
+		B95498E11E7818DF001C28A9 /* ChangeMaskTutorial.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChangeMaskTutorial.swift; path = Layers/ChangeMaskTutorial.swift; sourceTree = SOURCE_ROOT; };
+		B95498E31E78190E001C28A9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Layers/Info.plist; sourceTree = SOURCE_ROOT; };
 		B9585D941E64539800EE9C14 /* MasksPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MasksPicker.swift; path = Layers/MasksPicker.swift; sourceTree = SOURCE_ROOT; };
-		B9720DFB1E658386008A1423 /* CaptureButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CaptureButton.swift; sourceTree = SOURCE_ROOT; };
 		B97ACDA31E6C715F00523FB1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Layers/Assets.xcassets; sourceTree = SOURCE_ROOT; };
-		B97ACDA51E6CAF7F00523FB1 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = SOURCE_ROOT; };
-		B97ACDA71E6CB8EC00523FB1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
-		B98F93901E6F3C9C00C3F78F /* GridView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = SOURCE_ROOT; };
 		B9A1CCE71E6317CE00A9DD3F /* ImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImagePicker.swift; path = Layers/ImagePicker.swift; sourceTree = SOURCE_ROOT; };
 		B9B0BEA31E644EC5007B5D6E /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIColorExtension.swift; path = Layers/UIColorExtension.swift; sourceTree = SOURCE_ROOT; };
 		B9C303731E5CE379004C0FE1 /* CameraEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraEngine.swift; path = Layers/CameraEngine.swift; sourceTree = SOURCE_ROOT; };
@@ -126,6 +130,15 @@
 			name = Extensions;
 			sourceTree = "<group>";
 		};
+		B95498D31E78178D001C28A9 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				B90870831E649381006F8263 /* PreviewViewController.swift */,
+				C779EB461DA625B800BFF796 /* ViewController.swift */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
 		B97ACDA11E6C6DA200523FB1 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -140,8 +153,9 @@
 			isa = PBXGroup;
 			children = (
 				C779EB441DA625B800BFF796 /* AppDelegate.swift */,
-				B97ACDA51E6CAF7F00523FB1 /* Constants.swift */,
-				B97ACDA71E6CB8EC00523FB1 /* GoogleService-Info.plist */,
+				B95498DB1E7818B6001C28A9 /* Constants.swift */,
+				B95498E31E78190E001C28A9 /* Info.plist */,
+				B95498DD1E7818BF001C28A9 /* GoogleService-Info.plist */,
 			);
 			name = App;
 			sourceTree = "<group>";
@@ -158,11 +172,10 @@
 		B9F82DE41E63203900FFAC61 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				C779EB461DA625B800BFF796 /* ViewController.swift */,
-				B98F93901E6F3C9C00C3F78F /* GridView.swift */,
-				B90870831E649381006F8263 /* PreviewViewController.swift */,
+				B95498D71E7818A2001C28A9 /* GridView.swift */,
+				B95498E11E7818DF001C28A9 /* ChangeMaskTutorial.swift */,
 				B9A1CCE71E6317CE00A9DD3F /* ImagePicker.swift */,
-				B9720DFB1E658386008A1423 /* CaptureButton.swift */,
+				B95498DF1E7818CE001C28A9 /* CaptureButton.swift */,
 				B9585D941E64539800EE9C14 /* MasksPicker.swift */,
 			);
 			name = Views;
@@ -195,6 +208,7 @@
 			children = (
 				B97ACDA21E6C6DB000523FB1 /* App */,
 				B94C541A1E5EEA5100EC2527 /* Extensions */,
+				B95498D31E78178D001C28A9 /* ViewControllers */,
 				B9F82DE41E63203900FFAC61 /* Views */,
 				B97ACDA11E6C6DA200523FB1 /* Model */,
 				B9E955E21E656AEF00588BC1 /* Base.lproj */,
@@ -339,8 +353,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				B97ACDA41E6C715F00523FB1 /* Assets.xcassets in Resources */,
+				B95498DE1E7818BF001C28A9 /* GoogleService-Info.plist in Resources */,
+				B95498E41E78190E001C28A9 /* Info.plist in Resources */,
 				B9E955E51E656AEF00588BC1 /* LaunchScreen.storyboard in Resources */,
-				B97ACDA81E6CB8EC00523FB1 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -393,16 +408,16 @@
 		};
 		B9720DFD1E659302008A1423 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "GOOGLE_APP_ID=1:747977965500:ios:f3bdbf60bd7edec7\n\"${PODS_ROOT}\"/FirebaseCrash/upload-sym \"${SRCROOT}\"/ServiceAccount.json";
+			shellScript = "GOOGLE_APP_ID=1:747977965500:ios:f3bdbf60bd7edec7\n\"${PODS_ROOT}\"/FirebaseCrash/upload-sym \"${SRCROOT}\"/Layers/ServiceAccount.json";
 		};
 		D83C721E27266D528C3FA6BD /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -429,16 +444,17 @@
 				C779EB471DA625B800BFF796 /* ViewController.swift in Sources */,
 				B9585D951E64539800EE9C14 /* MasksPicker.swift in Sources */,
 				B9B0BEA41E644EC5007B5D6E /* UIColorExtension.swift in Sources */,
-				B98F93911E6F3C9C00C3F78F /* GridView.swift in Sources */,
+				B95498D81E7818A2001C28A9 /* GridView.swift in Sources */,
 				B90870841E649381006F8263 /* PreviewViewController.swift in Sources */,
+				B95498E21E7818DF001C28A9 /* ChangeMaskTutorial.swift in Sources */,
 				B90870821E648E13006F8263 /* Photo.swift in Sources */,
 				C779EB451DA625B800BFF796 /* AppDelegate.swift in Sources */,
-				B9720DFC1E658386008A1423 /* CaptureButton.swift in Sources */,
 				B9C303741E5CE379004C0FE1 /* CameraEngine.swift in Sources */,
+				B95498E01E7818CE001C28A9 /* CaptureButton.swift in Sources */,
 				B9A1CCE81E6317CE00A9DD3F /* ImagePicker.swift in Sources */,
 				B94C54191E5EEA4D00EC2527 /* UIImageViewExtension.swift in Sources */,
 				B9C303761E5CEC88004C0FE1 /* PhotosProxy.swift in Sources */,
-				B97ACDA61E6CAF7F00523FB1 /* Constants.swift in Sources */,
+				B95498DC1E7818B6001C28A9 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

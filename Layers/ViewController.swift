@@ -86,27 +86,7 @@ class ViewController: UIViewController {
             self.masksPicker.topAnchor.constraint(equalTo: self.view.topAnchor)
             ])
         
-        self.flipCameraButton.addTarget(self, action: #selector(flipCameraButtonTapped), for: .touchUpInside)
-        self.flipCameraButton.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(self.flipCameraButton)
-        NSLayoutConstraint.activate([
-            self.flipCameraButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -10),
-            self.flipCameraButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 10),
-            self.flipCameraButton.widthAnchor.constraint(equalToConstant: 54),
-            self.flipCameraButton.heightAnchor.constraint(equalToConstant: 54)
-            ])
-        
-        self.addGridButton.addTarget(self, action: #selector(toggleGrid), for: .touchUpInside)
-        self.addGridButton.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(self.addGridButton)
-        NSLayoutConstraint.activate([
-            self.addGridButton.rightAnchor.constraint(equalTo: self.flipCameraButton.leftAnchor, constant: -10),
-            self.addGridButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 10),
-            self.addGridButton.widthAnchor.constraint(equalToConstant: 54),
-            self.addGridButton.heightAnchor.constraint(equalToConstant: 54)
-            ])
-        
-        //Grid should be added to view before imagePicker
+        //Grid should be added to view after videoBox and masks
         self.gridView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(self.gridView)
         NSLayoutConstraint.activate([
@@ -136,6 +116,26 @@ class ViewController: UIViewController {
             self.captureButton.bottomAnchor.constraint(equalTo: self.imagePicker.topAnchor, constant: -10),
             self.captureButton.widthAnchor.constraint(equalToConstant: 66),
             self.captureButton.heightAnchor.constraint(equalToConstant: 66)
+            ])
+        
+        self.flipCameraButton.addTarget(self, action: #selector(flipCameraButtonTapped), for: .touchUpInside)
+        self.flipCameraButton.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(self.flipCameraButton)
+        NSLayoutConstraint.activate([
+            self.flipCameraButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -10),
+            self.flipCameraButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 10),
+            self.flipCameraButton.widthAnchor.constraint(equalToConstant: 54),
+            self.flipCameraButton.heightAnchor.constraint(equalToConstant: 54)
+            ])
+        
+        self.addGridButton.addTarget(self, action: #selector(toggleGrid), for: .touchUpInside)
+        self.addGridButton.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(self.addGridButton)
+        NSLayoutConstraint.activate([
+            self.addGridButton.rightAnchor.constraint(equalTo: self.flipCameraButton.leftAnchor, constant: -10),
+            self.addGridButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 10),
+            self.addGridButton.widthAnchor.constraint(equalToConstant: 54),
+            self.addGridButton.heightAnchor.constraint(equalToConstant: 54)
             ])
     }
     

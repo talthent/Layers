@@ -27,7 +27,7 @@ class PhotosProxy {
     }
     
     func loadPhotos() {
-        NSLog("******* LOAD FUCKING PHOTOS!!! *******")
+        NSLog("******* LOAD PHOTOS!!! *******")
         PHPhotoLibrary.requestAuthorization { (auth) in
             switch auth {
             case .authorized:
