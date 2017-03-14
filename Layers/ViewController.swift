@@ -8,6 +8,7 @@
 
 import UIKit
 import Foundation
+import Instabug
 import FirebaseAnalytics
 
 class ViewController: UIViewController {
@@ -42,6 +43,9 @@ class ViewController: UIViewController {
         grid.isHidden = true
         return grid
     }()
+    var feedbackButton = RoundButton(size: 28, title: "!")
+    var changeMaskTutorial = ChangeMaskTutorial()
+    var changeMaskTutorialTimer : Timer?
     
     var cameraEngine = CameraEngine()
     var firstBatchArrived = false
@@ -62,6 +66,21 @@ class ViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotifications(notification:)), name: PhotosProxy.fetchingPhotosFirstBatchCompletedEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotifications(notification:)), name: PhotosProxy.onePhotoAddedEvent, object: nil)
+        
+        if Settings.shouldPlayChangeMaskTutorial() {
+            self.changeMaskTutorialTimer = Timer.scheduledTimer(timeInterval: 7, target: self, selector: #selector(changeMaskTutorialTimerAction), userInfo: nil, repeats: false)
+        }
+    }
+    
+    func changeMaskTutorialTimerAction() {
+        self.changeMaskTutorialTimer?.invalidate()
+        self.changeMaskTutorialTimer = nil
+        self.changeMaskTutorial.start()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.masksPicker.createMask()
     }
     
     fileprivate func setupViews() {
@@ -94,6 +113,15 @@ class ViewController: UIViewController {
             self.gridView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             self.gridView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
             self.gridView.topAnchor.constraint(equalTo: self.view.topAnchor)
+            ])
+        
+        self.changeMaskTutorial.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(self.changeMaskTutorial)
+        NSLayoutConstraint.activate([
+            self.changeMaskTutorial.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            self.changeMaskTutorial.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            self.changeMaskTutorial.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            self.changeMaskTutorial.topAnchor.constraint(equalTo: self.view.topAnchor)
             ])
         
         self.imagePicker = ImagePicker(delegate: self)
@@ -137,6 +165,20 @@ class ViewController: UIViewController {
             self.addGridButton.widthAnchor.constraint(equalToConstant: 54),
             self.addGridButton.heightAnchor.constraint(equalToConstant: 54)
             ])
+        
+        self.feedbackButton.addTarget(self, action: #selector(feedbackButtonTapped), for: .touchUpInside)
+        self.feedbackButton.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(self.feedbackButton)
+        NSLayoutConstraint.activate([
+            self.feedbackButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 10),
+            self.feedbackButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 10),
+            self.feedbackButton.widthAnchor.constraint(equalToConstant: 28),
+            self.feedbackButton.heightAnchor.constraint(equalToConstant: 28)
+            ])
+    }
+    
+    func feedbackButtonTapped() {
+        Instabug.invoke()
     }
     
     fileprivate func setupCamera() {
@@ -182,11 +224,6 @@ class ViewController: UIViewController {
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        self.masksPicker.createMask()
-    }
-    
     func captureButtonTapped() {
         FIRAnalytics.logEvent(withName: userTookAPhotoEvent, parameters: ["hasMask" : (self.masksPicker.image != nil) as NSObject])
         self.cameraEngine.captureAndMerge(maskedImage: try! self.masksPicker.renderMaskedImage())
@@ -225,6 +262,7 @@ class ViewController: UIViewController {
     //MARK: Gesture Handlers
     func tapGestureHandler(tap : UITapGestureRecognizer) {
         FIRAnalytics.logEvent(withName: userChangedMaskEvent, parameters: nil)
+        self.changeMaskTutorial.stop()
         self.masksPicker.changeMask()
     }
     

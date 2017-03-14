@@ -41,11 +41,11 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>We will help you take an amazing pictures, believe us!</string>
+	<string>We will help you take amazing pictures, believe us!</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Use your microphone to report bugs.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>We just want to save the photo to your camera roll. that's it! promise!</string>
+	<string>We just want to save photos to your camera roll. that&apos;s it! promise!</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
