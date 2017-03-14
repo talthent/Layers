@@ -5,5 +5,6 @@ target 'Layers' do
 
 pod 'Instabug'
 pod ‘Firebase/Core’
+pod 'Firebase/Crash'
 
 end

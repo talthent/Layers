@@ -7,8 +7,6 @@
 //
 
 import UIKit
-import Fabric
-import Crashlytics
 import Instabug
 import Firebase
 
@@ -19,7 +17,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool
     {
-        Fabric.with([Crashlytics.self])
         FIRApp.configure()
         Instabug.start(withToken: "0d279019d277a82f410e3ef3c5b74c9e", invocationEvent: .shake)
         self.window = UIWindow(frame: UIScreen.main.bounds)

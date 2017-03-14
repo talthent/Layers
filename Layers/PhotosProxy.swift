@@ -21,7 +21,7 @@ class PhotosProxy {
     
     func loadLastPhoto() {
         self.fetchPhotos(amount: 1) { (photos) in
-            self.photos.insert(photos[0], at: 0)
+//            self.photos.insert(photos[0], at: 0)
             NotificationCenter.default.post(name: PhotosProxy.onePhotoAddedEvent, object: nil)
         }
     }

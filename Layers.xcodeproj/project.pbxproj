@@ -13,8 +13,6 @@
 		B94C54191E5EEA4D00EC2527 /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94C54181E5EEA4D00EC2527 /* UIImageViewExtension.swift */; };
 		B9585D951E64539800EE9C14 /* MasksPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9585D941E64539800EE9C14 /* MasksPicker.swift */; };
 		B9720DFC1E658386008A1423 /* CaptureButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9720DFB1E658386008A1423 /* CaptureButton.swift */; };
-		B9720E001E65932B008A1423 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9720DFE1E65932B008A1423 /* Fabric.framework */; };
-		B9720E011E65932B008A1423 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9720DFF1E65932B008A1423 /* Crashlytics.framework */; };
 		B97ACDA41E6C715F00523FB1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B97ACDA31E6C715F00523FB1 /* Assets.xcassets */; };
 		B97ACDA61E6CAF7F00523FB1 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97ACDA51E6CAF7F00523FB1 /* Constants.swift */; };
 		B97ACDA81E6CB8EC00523FB1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B97ACDA71E6CB8EC00523FB1 /* GoogleService-Info.plist */; };
@@ -54,8 +52,6 @@
 		B94C54181E5EEA4D00EC2527 /* UIImageViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIImageViewExtension.swift; path = Layers/UIImageViewExtension.swift; sourceTree = SOURCE_ROOT; };
 		B9585D941E64539800EE9C14 /* MasksPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MasksPicker.swift; path = Layers/MasksPicker.swift; sourceTree = SOURCE_ROOT; };
 		B9720DFB1E658386008A1423 /* CaptureButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CaptureButton.swift; sourceTree = SOURCE_ROOT; };
-		B9720DFE1E65932B008A1423 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
-		B9720DFF1E65932B008A1423 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		B97ACDA31E6C715F00523FB1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Layers/Assets.xcassets; sourceTree = SOURCE_ROOT; };
 		B97ACDA51E6CAF7F00523FB1 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = SOURCE_ROOT; };
 		B97ACDA71E6CB8EC00523FB1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
@@ -83,8 +79,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B9720E011E65932B008A1423 /* Crashlytics.framework in Frameworks */,
-				B9720E001E65932B008A1423 /* Fabric.framework in Frameworks */,
 				B2572392B90E19ABB95F8B8F /* Pods_Layers.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -118,8 +112,6 @@
 		A6EAC53AA924D836F0D04323 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				B9720DFE1E65932B008A1423 /* Fabric.framework */,
-				B9720DFF1E65932B008A1423 /* Crashlytics.framework */,
 				D57611AC89FDCB6B90552745 /* Pods_Layers.framework */,
 			);
 			name = Frameworks;
@@ -410,7 +402,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./Fabric.framework/run bcbed655491f23c3df27c137cd230ca6103a5d5f 911b09c4104de24c0a632788ebc49257533e7b09abf6e3b9423d30a0b2e368f1";
+			shellScript = "GOOGLE_APP_ID=1:747977965500:ios:f3bdbf60bd7edec7\n\"${PODS_ROOT}\"/FirebaseCrash/upload-sym \"${SRCROOT}\"/ServiceAccount.json";
 		};
 		D83C721E27266D528C3FA6BD /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;

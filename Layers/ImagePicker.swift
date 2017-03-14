@@ -83,8 +83,18 @@ class ImagePicker : UIView, UICollectionViewDelegate, UICollectionViewDataSource
         fatalError("init(coder:) has not been implemented")
     }
     
+    func addPlaceholder() {
+        PhotosProxy.shared.photos.insert("placeholder", at: 0)
+        self.collectionView.insertItems(at: [IndexPath(item: 0, section: 0)])
+    }
+    
     func refreshData() {
         self.collectionView.reloadSections([0])
+    }
+    
+    func reloadFirstImage() {
+        let photoId = self.photos[0]
+        self.getCellAtIndex(0)?.thumbnail = PhotosProxy.shared.getPhoto(id: photoId).thumbnail
     }
     
     //MARK: - UICollectionViewDelegate
@@ -95,8 +105,8 @@ class ImagePicker : UIView, UICollectionViewDelegate, UICollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for: indexPath) as! ImagePickerPhotoCell
         let imageId = self.photos[indexPath.item]
-        cell.image = PhotosProxy.shared.getPhoto(id: imageId).thumbnail
         cell.checked = self.selectedItemId == imageId
+        cell.thumbnail = PhotosProxy.shared.getPhoto(id: imageId).thumbnail
         return cell
     }
 
@@ -146,7 +156,7 @@ class ImagePicker : UIView, UICollectionViewDelegate, UICollectionViewDataSource
 
 class ImagePickerPhotoCell : UICollectionViewCell {
     
-    var image : UIImage? {
+    var thumbnail : UIImage? {
         set {
             self.imageView.image = newValue
         }

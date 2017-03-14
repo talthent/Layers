@@ -184,8 +184,10 @@ class ViewController: UIViewController {
     
     func captureButtonTapped() {
         FIRAnalytics.logEvent(withName: userTookAPhotoEvent, parameters: ["hasMask" : (self.masksPicker.image != nil) as NSObject])
+        self.imagePicker.addPlaceholder()
         self.cameraEngine.captureAndMerge(maskedImage: try! self.masksPicker.renderMaskedImage())
         self.startCaptureAnimation()
+        
     }
     
     func flipCameraButtonTapped() {
@@ -258,7 +260,6 @@ class ViewController: UIViewController {
         default:
             break
         }
-        
     }
 }
 
@@ -298,10 +299,8 @@ extension ViewController : UIViewControllerPreviewingDelegate {
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
         FIRAnalytics.logEvent(withName: user3DTouchedPhotoFromGalleryEvent, parameters: nil)
         let point = self.view.convert(location, to: self.imagePicker.collectionView)
-        guard let indexPath = self.imagePicker.collectionView.indexPathForItem(at: point) else {
-            return nil
-        }
-        guard let cell = self.imagePicker.collectionView.cellForItem(at: indexPath) else {
+        guard let indexPath = self.imagePicker.collectionView.indexPathForItem(at: point),
+            let cell = self.imagePicker.collectionView.cellForItem(at: indexPath) else {
             return nil
         }
         let imageId = self.imagePicker.photos[indexPath.item]
