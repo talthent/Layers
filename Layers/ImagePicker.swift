@@ -44,7 +44,7 @@ class ImagePicker : UIView, UICollectionViewDelegate, UICollectionViewDataSource
         
         self.setupCollectionView()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(handleNotifications(notification:)), name: PhotosProxy.loadingPhotosCompleteEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotifications(notification:)), name: PhotosProxy.fetchingPhotosFirstBatchCompletedEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotifications(notification:)), name: PhotosProxy.onePhotoAddedEvent, object: nil)
         
         PhotosProxy.shared.loadPhotos()
@@ -52,10 +52,10 @@ class ImagePicker : UIView, UICollectionViewDelegate, UICollectionViewDataSource
     
     func handleNotifications(notification: Notification) {
         switch notification.name {
+        case PhotosProxy.fetchingPhotosFirstBatchCompletedEvent:
+            self.refreshData()
         case PhotosProxy.onePhotoAddedEvent:
-            self.refreshData()
-        case PhotosProxy.loadingPhotosCompleteEvent:
-            self.refreshData()
+            PhotosProxy.shared.loadPhotos()
         default:
             break;
         }
@@ -66,7 +66,7 @@ class ImagePicker : UIView, UICollectionViewDelegate, UICollectionViewDataSource
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
         self.collectionView.collectionViewLayout = self.layout
-        self.collectionView.backgroundColor = .clear//UIColor(white: 0, alpha: 0.8)
+        self.collectionView.backgroundColor = .clear
         self.collectionView.register(ImagePickerPhotoCell.self, forCellWithReuseIdentifier: "photoCell")
         
         self.collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -83,9 +83,30 @@ class ImagePicker : UIView, UICollectionViewDelegate, UICollectionViewDataSource
         fatalError("init(coder:) has not been implemented")
     }
     
-    func addPlaceholder() {
-        PhotosProxy.shared.photos.insert("placeholder", at: 0)
-        self.collectionView.insertItems(at: [IndexPath(item: 0, section: 0)])
+    func selectPhoto(atIndex index: Int) {
+        self.deselectPhoto(notify: false)
+        self.getCellAtIndex(index)?.checked = true
+        self.isUserInteractionEnabled = false
+        let imageId = self.photos[index]
+        self.selectedItemId = imageId
+        PhotosProxy.shared.getImage(id: imageId, completionBlock: { (image) in
+            self.isUserInteractionEnabled = true
+            if let image = image {
+                self.delegate?.didSelectImage(imagePicker: self, image: image)
+            }
+        })
+    }
+    
+    func deselectPhoto(notify: Bool = true) {
+        guard let selectedItemId = self.selectedItemId else {
+            return
+        }
+        let index = self.getPhotoIndex(id: selectedItemId)!
+        self.getCellAtIndex(index)?.checked = false
+        self.selectedItemId = nil
+        if notify {
+            self.delegate?.didDeselectImage(imagePicker: self)
+        }
     }
     
     func refreshData() {
@@ -106,7 +127,8 @@ class ImagePicker : UIView, UICollectionViewDelegate, UICollectionViewDataSource
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for: indexPath) as! ImagePickerPhotoCell
         let imageId = self.photos[indexPath.item]
         cell.checked = self.selectedItemId == imageId
-        cell.thumbnail = PhotosProxy.shared.getPhoto(id: imageId).thumbnail
+        let thumbnail = PhotosProxy.shared.getPhoto(id: imageId).thumbnail
+        cell.thumbnail = thumbnail
         return cell
     }
 
@@ -115,25 +137,9 @@ class ImagePicker : UIView, UICollectionViewDelegate, UICollectionViewDataSource
             return
         }
         if cell.checked {
-            cell.checked = false
-            self.selectedItemId = nil
-            self.delegate?.didDeselectImage(imagePicker: self)
-            
+            self.deselectPhoto()
         } else {
-            if let previousSelectedItemId = self.selectedItemId,
-                let previousSelectedCellIndexPath = self.getPhotoIndex(id: previousSelectedItemId) {
-                self.getCellAtIndex(previousSelectedCellIndexPath)?.checked = false
-            }
-            cell.checked = true
-            self.isUserInteractionEnabled = false
-            let imageId = self.photos[indexPath.item]
-            self.selectedItemId = imageId
-            PhotosProxy.shared.getImage(id: imageId, completionBlock: { (image) in
-                self.isUserInteractionEnabled = true
-                if let image = image {
-                    self.delegate?.didSelectImage(imagePicker: self, image: image)
-                }
-            })
+            self.selectPhoto(atIndex: indexPath.item)
         }
     }
     
@@ -150,8 +156,6 @@ class ImagePicker : UIView, UICollectionViewDelegate, UICollectionViewDataSource
         return self.collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? ImagePickerPhotoCell
     }
 }
-
-
 
 
 class ImagePickerPhotoCell : UICollectionViewCell {

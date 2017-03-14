@@ -9,7 +9,7 @@
 import Foundation
 
 //MARK: - Analytics Events
-let userTookAPhotoEvent = "user took a photo"
+let userTookAPhotoEvent = "userTookAPhoto"
 let userFlippedCameraEvent = "userFlippedCamera"
 let userChoseAPhotoFromGalleryEvent = "userChoseAPhotoFromGallery"
 let user3DTouchedPhotoFromGalleryEvent = "user3DTouchedPhotoFromGallery"

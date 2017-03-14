@@ -44,6 +44,7 @@ class ViewController: UIViewController {
     }()
     
     var cameraEngine = CameraEngine()
+    var firstBatchArrived = false
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -59,10 +60,8 @@ class ViewController: UIViewController {
             registerForPreviewing(with: self, sourceView: self.view)
         }
         
-        NotificationCenter.default.addObserver(self, selector: #selector(handleNotifications(notification:)), name: PhotosProxy.loadingPhotosCompleteEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotifications(notification:)), name: PhotosProxy.fetchingPhotosFirstBatchCompletedEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotifications(notification:)), name: PhotosProxy.onePhotoAddedEvent, object: nil)
-        
-        PhotosProxy.shared.loadPhotos()
     }
     
     fileprivate func setupViews() {
@@ -128,6 +127,7 @@ class ViewController: UIViewController {
             self.imagePickerHeightConstraint!
             ])
         
+        self.captureButton.startLoading()
         self.captureButton.addTarget(self, action: #selector(captureButtonTapped))
         self.captureButton.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(self.captureButton)
@@ -159,8 +159,13 @@ class ViewController: UIViewController {
     
     func handleNotifications(notification: Notification) {
         switch notification.name {
-        case PhotosProxy.loadingPhotosCompleteEvent:
-            self.expandImagePicker(animated: true)
+        case PhotosProxy.fetchingPhotosFirstBatchCompletedEvent:
+            if firstBatchArrived == false {
+                self.expandImagePicker(animated: true)
+                self.imagePicker.selectPhoto(atIndex: 0)
+                self.firstBatchArrived = true
+                self.captureButton.stopLoading()
+            }
         default:
             break;
         }
@@ -184,7 +189,6 @@ class ViewController: UIViewController {
     
     func captureButtonTapped() {
         FIRAnalytics.logEvent(withName: userTookAPhotoEvent, parameters: ["hasMask" : (self.masksPicker.image != nil) as NSObject])
-        self.imagePicker.addPlaceholder()
         self.cameraEngine.captureAndMerge(maskedImage: try! self.masksPicker.renderMaskedImage())
         self.startCaptureAnimation()
         
